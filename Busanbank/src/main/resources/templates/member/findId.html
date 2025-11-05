@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 찾기</title>
+    <link rel="stylesheet" href="/css/Member.css">
+    <script src="/js/find.js" defer></script>
+
+</head>
+<body>
+
+    <main>
+        <div class="board">
+            <div class="board-upper">
+                <h2>아이디 찾기</h2>
+            </div>
+            <div class="board-lower">
+                <div class="search-area">
+                    <div class="select-method">
+                        <button type="submit" id="emailBtn" class="active">이메일 인증</button>
+                        <button type="submit" id="hpBtn">휴대전화 인증</button>
+                    </div>
+
+                    <div class="enter-info">
+                    <table class="find-table" id="authEmailTable">                        
+                        <tr>
+                            <th>성명(고객명)</th>
+                            <td>
+                                <input type="text" name="name" placeholder="이름 입력"/>
+                                <span class="nameResult"></span>                        
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>이메일</th>
+                            <td>
+                                <div class="input-row">
+                                    <input type="email" name="email" placeholder="이메일 입력"/>
+                                    <button type="button" id="btnCheckEmail">이메일 인증</button>
+                                    <span class="emailResult"></span>
+                                </div>
+                                <div class="input-row">
+                                    <input type="text" id="emailCode" placeholder="인증번호 입력" style="display: none;"/>
+                                </div>    
+                            </td>
+                        </tr>
+                        <tr>
+                    </table>
+
+                    <table class="find-table" id="authHpTable" style="display:none;">                        
+                        <tr>
+                            <th>성명(고객명)</th>
+                            <td>
+                                <input type="text" name="name" placeholder="이름 입력"/>
+                                <span class="nameResult"></span>                        
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>휴대전화</th>
+                            <td>
+                                <div class="input-row">
+                                    <input type="email" name="email" placeholder="이메일 입력"/>
+                                    <button type="button" id="btnCheckEmail">휴대전화 인증</button>
+                                    <span class="emailResult"></span>
+                                </div>       
+                                <div class="input-row">
+                                    <input type="text" id="emailCode" placeholder="인증번호 입력" style="display: none;"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                    </table>
+                    </div>
+
+                </div>
+            
+                <div class="find-btn-wrap">
+                    <button type="submit" class="agree-btn">확인</button>
+                </div>
+                
+            
+            </div>
+
+
+        </div>
+    </main>
+    
+</body>
+</html>

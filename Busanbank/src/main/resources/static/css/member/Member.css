@@ -1,0 +1,457 @@
+
+.board {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* =============== 로그인 페이지 =============*/
+
+.login-item{
+    display: flex;
+    align-items:center;
+    flex-direction: column;
+}
+
+.login-item img{
+    width: 750px;
+    height: 500px;
+}
+
+.login-area{
+    width: 650px;
+}
+
+.login-area h2{
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding: 5px 0 5px;
+}
+
+.login-box{
+    width: 650px;
+    height: 300px;
+    border: 1px solid #C73034;
+    display: flex;
+    align-items: center;
+}
+
+.auth-area p{
+    width: 210px;
+    padding-top: 5px;
+    margin-bottom: 50px;
+}
+
+
+.normal-area p{
+    width: 250px;
+    padding-top: 5px;
+    margin-bottom: 20px;
+}
+
+.auth-area{
+    width: 325px;
+    height: 260px;
+    border-right: 1px solid #7C7B7C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.normal-area{
+    width: 325px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 210px;
+    height: 75px;
+    background-color: #C73034;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.normal-area input{
+    width: 250px;
+    height: 42px;
+    background-color: #EAEAEA;
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+.normal-button{
+    border: none;
+    width: 250px;
+    height: 42px;
+    background-color: #C73034;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.login-link{
+    width: 250px;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    padding-top: 5px;
+}
+.login-link a{
+    text-decoration: none;
+    color: #333;
+    font-size: 11px;
+}
+
+
+/* =============== 약관 페이지 =============*/
+.register-step{
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.now-step p{
+    margin: 0;
+    border-bottom: 1px solid #C73034;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.no-step{
+    margin: 0;
+    color: #7C7B7C;
+    font-size: 22px;
+    border-bottom: 1px solid #7C7B7C;
+
+}
+
+.now-step span{
+    font-size: 22px;
+    color: #C73034;
+    padding-right: 5px;
+}
+
+.board-upper{
+    height: 40px;
+    border-bottom: 1px solid #7C7B7C;
+    padding-bottom: 10px;
+}
+.board-upper h2{
+    margin: 0;
+    font-size: 25px;
+    font-weight: 500;
+    padding-left: 15px;
+}
+.board-lower{
+    width: 1200px;
+}
+.terms-es{
+    color: #C73034;
+    font-size: 15px;
+    font-weight: 400;
+}
+.terms-se{
+    color: #F68700;
+    font-size: 15px;
+    font-weight: 400;
+}
+.terms-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    margin-top: 15px;
+}
+.terms-section h2{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    width: 1100px;
+}
+.terms-box{
+    width: 1100px;
+    height: 150px;
+    border: 1px solid #333;
+
+}
+.agree-box{
+    width: 1100px;
+    display: flex;
+    justify-content: end;
+}
+
+.agree-box p{
+    margin: 0;
+}
+
+.btn-wrap{
+    padding-top: 20px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.agree-btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 130px;
+    height: 50px;
+    background-color: #C73034;
+    color: white;
+    font-size: 20px;
+}
+
+.cancel-btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 130px;
+    height: 50px;
+    border: 1px solid #7C7B7C;
+    background-color: white;
+    font-size: 20px;
+}
+
+
+/* =============== 회원가입 페이지 =============*/
+
+.auth-register h2{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+                                                                                                                                                                                                                                                                                              
+}
+
+.auth-table{
+    width: 1100px;
+    border-top: 2px solid #C73034;
+    border-bottom: 1px solid #7C7B7C;
+    border-collapse: collapse;
+}
+.auth-table tr,
+.find-table tr{
+    display: flex;
+    justify-content: start;
+}
+.auth-table th,
+.find-table th{
+    width: 200px;
+    font-size: 15px;
+    font-weight: 400;
+    background-color: #f3f3f3;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 15px;
+}
+.auth-table td,
+.find-table td{
+    padding: 15px;
+}
+.auth-table tr:not(:last-child),
+.find-table tr:not(:last-child){
+    border-bottom: 1px solid #ccc;
+
+}
+
+.auth-table input,
+.find-table input{
+    height: 25px;
+}
+
+.info-area{
+    width: 1200px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.auth-table button,
+.find-table button{
+  outline: none;
+  background-color: inherit ;
+  cursor: pointer;
+  border: none;;
+  height: 30px;
+    background-color: #a1a1a1;
+    color: white;
+}
+
+.auth-table button:hover,
+.find-table button:hover{
+    background-color: #979696;
+}
+
+.input-row{
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+  padding: 2px;
+}
+.input-row:last-child {
+  margin-bottom: 0;
+}
+
+input[type="radio"] {
+  accent-color: #C73034;
+  cursor: pointer;
+  
+}
+
+input[type="date"]{
+    width: 165px;
+}
+
+.input-row-long {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.input-row-long input{
+    width: 200px;
+}
+
+
+/* =============== 회원가입 완료 페이지 =============*/
+.finish-step{
+    width: 1100px;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.finish-step h2{
+    padding-top: 15px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.finish-step p{
+    margin: 0;
+    color: #7C7B7C;
+    margin-bottom: 10px;
+}
+
+.login-btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 120px;
+    height: 40px;
+    background-color: #C73034;
+    color: white;
+    font-size: 20px;
+}
+
+.home-btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 120px;
+    height: 40px;
+    border: 1px solid #7C7B7C;
+    background-color: white;
+    font-size: 20px;
+}
+
+.btn-finish-wrap{
+    width: 480px;
+    padding-top: 20px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    border-top: 1px solid #EAEAEA;
+}
+
+
+
+/* =============== 아이디 찾기 페이지 =============*/
+.search-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.find-table{
+    width: 600px;
+    border-top: 2px solid #C73034;
+    border-bottom: 1px solid #7C7B7C;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+}
+
+.enter-info{
+    display: flex;
+    justify-content: center;
+}
+
+.auth-finish-wrap{
+    width: 1200px;
+    padding-top: 20px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.select-method{
+    display: flex;
+    width: 600px;
+    margin-bottom: 10px;
+    margin-top: 80px;
+    border-bottom: 1px solid #EAEAEA;
+    box-sizing: border-box;
+}
+
+.select-method button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 150px;
+    height: 30px;
+    border-top: 1px solid #EAEAEA;
+    border-right: 1px solid #EAEAEA;
+    border-left: 1px solid #EAEAEA;
+    background-color: inherit ;
+}
+
+.select-method button.active{
+    border: none;
+    background-color: #C73034;
+    color: white;
+}
+
+.find-btn-wrap{
+    padding-top: 20px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+
+}
+
+.find-btn-wrap button{
+    height: 35px;
+    width: 80px;
+}
