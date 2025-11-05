@@ -5,53 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>BNK부산은행::prodList</title>
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/product/style_prodList.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/common/style_common.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/common/style_font.css">
     <link rel="stylesheet" href="/src/main/resources/static/css/common/xeicon.min.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/product/style_prodList.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/_header.css">
+    
+    <script src="/src/main/resources/static/js/_header.js" defer></script>
 </head>
 
 <body>
-<!-- 상단 유틸 -->
-<div class="util">
-    <div class="container util_row">
-        <div class="util_spacer"></div>
-        <img href="/src/main/resources/static/images/main/Busanbank_logo.png"></img>
-        <a href="#">로그인</a>
-        <a href="#">고객센터</a>
-        <a href="#">은행소개</a>
-        <a href="#">Global <i class="xi-caret-down-min"></i></a>
-        <i class="xi-search"></i>
+    <!-- Header 부분 -->
+    <!-- 상단 유틸 -->
+    <div class="util">
+        <div class="container util_row">
+            <img class="util_logo" src="/src/main/resources/static/images/main/Busanbank_logo.png" alt="BNK부산은행"></img>
+            <div class="util_spacer"></div>
+            <a href="#">로그인</a>
+            <a href="#">고객센터</a>
+            <a href="#">은행소개</a>
+            <a href="#">Global <i class="xi-caret-down-min"></i></a>
+            <i class="xi-search"></i>
+        </div>
     </div>
-</div>
 
-<!-- GNB -->
-<header class="gnb">
-    <div class="container row">
-        <a href="#" class="logo">BNK <span>부산은행</span></a>
-        <nav class="menu">
-            <a href="#" class="is-active">외화예금</a>
-            <a href="#">송금</a>
-            <a href="#">환율</a>
-            <a href="#">환전</a>
-            <a href="#">Traveler’s Class</a>
-            <a href="#">금융서비스</a>
-        </nav>
+    <!-- GNB -->
+    <header class="gnb">
+        <div class="container gnb_row">
+           
+            <nav class="menu">
+
+                <!-- 외화예금 -->
+                <div class="menu-item" data-menu="외화예금">
+                    <a href="#" class="menu-active">외화예금</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+
+                <!-- 송금 -->
+                <div class="menu-item" data-menu="송금">
+                    <a href="#">송금</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+
+                <!-- 환율 -->
+                <div class="menu-item" data-menu="환율">
+                    <a href="#">환율</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+
+                <!-- 환전 -->
+                <div class="menu-item" data-menu="환전">
+                    <a href="#">환전</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+
+                <!-- Traveler’s Class -->
+                <div class="menu-item" data-menu="Traveler’s Class">
+                    <a href="#">Traveler’s Class</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+
+                <!-- 금융서비스 -->
+                <div class="menu-item" data-menu="금융서비스">
+                    <a href="#">금융서비스</a>
+                    <div class="submenu">
+                        <a href="#">외화예금상품</a>
+                        <a href="#">외화예금안내</a>
+                        <a href="#">외화예금우대서비스</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="gnb_text">
+                <a href="#">금융을 편리하게. 미래를 풍요롭게.</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- GNB-SUB -->
+    <div class="gnb_sub">
+        <div class="container gnb_sub_row">
+            <a href="#" class="breadcrumb">외화예금<i class="xi-angle-right-min"></i></a>
+            <a href="#" class="breadcrumb">외화예금안내<i class="xi-angle-right-min"></i></a>
+            <a href="#" class="breadcrumb">외화예금안내</a>
+        </div>
     </div>
-</header>
 
-<!-- 2차 탭 -->
-<div class="tabs">
-    <div class="container list">
-        <a href="#" class="chip">외화예금안내</a>
-        <a href="#" class="chip">당좌/저축/예탁</a>
-        <a href="#" class="chip active">해외외화예금상품</a>
-        <a href="#" class="chip">3차 카테고리</a>
-        <a href="#" class="chip">3차 카테고리</a>
+    <!-- Header 끝 -->
+
+    <!-- 2차 탭 -->
+    <div class="tabs">
+        <div class="container list">
+            <a href="#" class="chip">외화예금안내</a>
+            <a href="#" class="chip">당좌/저축/예탁</a>
+            <a href="#" class="chip active">해외외화예금상품</a>
+            <a href="#" class="chip">3차 카테고리</a>
+            <a href="#" class="chip">3차 카테고리</a>
+        </div>
     </div>
-</div>
-
-<div class="container">
-    <div class="breadcrumb">홈 &gt; 외화예금 &gt; 해외외화예금상품</div>
 
     <!-- 카테고리 선택 + 정렬 -->
     <div class="category">

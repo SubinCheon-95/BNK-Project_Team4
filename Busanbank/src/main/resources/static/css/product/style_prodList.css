@@ -1,38 +1,8 @@
-/* util */
-.util {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid var(--red-900);
-}
-
-.util_row { 
-    display: flex; 
-    align-items: center; 
-    gap: 30px;
-    font-size: 14px; 
-    font-weight: 600;
-    color: var(--gray-700);
-}
-
-.util_spacer {flex:1}
-
-/* gnb */
-.gnb{border-top:6px solid var(--red-600); border-bottom:1px solid #eee; background:var(--white)}
-.gnb .row{display:flex; align-items:center; gap:24px; height:56px}
-.logo{font-weight:800; color:var(--red-600); font-size:20px}
-.logo span{color:var(--gray-900); font-weight:700}
-.menu{display:flex; gap:24px; margin-left:24px}
-.menu a{padding:8px 0; font-weight:600}
-.menu a.is-active{color:var(--red-600)}
-
 /* tabs */
 .tabs{background:var(--red-100); border-bottom:1px solid #f2d2d3}
 .tabs .list{display:flex; gap:12px; height:44px; align-items:center}
 .chip{height:32px; display:inline-flex; align-items:center; padding:0 14px; border:1px solid #eee; border-radius:999px; background:#fff; font-size:14px}
 .chip.active{background:var(--red-600); color:#fff; border-color:var(--red-600)}
-
-/* breadcrumb */
-.breadcrumb{font-size:12px; color:#888; padding:12px 0}
 
 /* category + filter */
 .category{display:flex; gap:8px; padding:12px 0 4px; border-top:2px solid #eee}
