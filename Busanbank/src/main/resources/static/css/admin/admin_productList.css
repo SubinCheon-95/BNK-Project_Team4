@@ -274,17 +274,19 @@ td {
   display: block;
   width: 100%;
   height: 100%;
+  line-height: 30px;
   text-align: center;
   text-decoration: none;
 }
-.pagenation .page2, .pagenation .page3 {
+.pagenation .page2 {
   background-color: white;
   color: #B9B9B9;
   display: block;
-  width: 100%;
   height: 100%;
+  line-height: 30px;
   text-align: center;
   text-decoration: none;
+  width: 100%;
 }
 .pagenation li a {
   display: block;
