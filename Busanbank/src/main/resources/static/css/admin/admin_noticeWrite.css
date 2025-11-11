@@ -116,9 +116,8 @@ textarea {
     transition: border-color 0.2s;
     width: 100%;
 }
-textarea::placeholder {
-    color: #ADB5BD;
-}
+textarea::placeholder {color: #ADB5BD;}
+textarea::-webkit-scrollbar {display: none;}
 
 .bottom-bar {
     display: flex;
