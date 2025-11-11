@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>은행거래 필요서류안내</title>
+    <title>공지사항 관리</title>
     <link rel="stylesheet" href="/static/css/admin/admin_category.css">
-    <link rel="stylesheet" href="/static/css/admin/admin_documentList.css">
+    <link rel="stylesheet" href="/static/css/admin/admin_noticeList.css">
     <link rel="stylesheet" href="/static/css/common/style_font.css"> <!-- 공용 폰트 -->
     <script src="/static/js/admin/admin_category.js"></script>
-    <script src="/static/js/admin/admin_documentList.js"></script>
+    <script src="/static/js/admin/admin_FAQList.js"></script>
 </head>
 <body>
     <div class="container" style="display: flex;">
@@ -114,32 +114,17 @@
 
         <div class="main-right">
             <div class="faq_title">
-                <span class="title_sp">은행거래 필요서류안내</span>
+                <span class="title_sp">공지사항 관리</span>
             </div>
 
-            <form action="#" method="post" class="search_form">
-                <span class="search_sp">필요서류 검색</span>
+            <form action="#" method="get" class="search_form">
+                <select class="search-select" name="searchType">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
                 <input type="text" name="keyword" class="search-input">
                 <input type="submit" class="search-btn" value="검색">
             </form>
-
-            <div class="cs_menuBox">
-                <div class="cs_menu">
-                    <div class="cs_menuBtn active">전체</div>
-                    <div class="cs_menuBtn">수신</div>
-                    <div class="cs_menuBtn">신탁</div>
-                    <div class="cs_menuBtn">대출</div>
-                    <div class="cs_menuBtn cs_menuBtn_last">WM</div>
-                </div>
-
-                <div class="cs_menu">
-                    <div class="cs_menuBtn">카드</div>
-                    <div class="cs_menuBtn">외환</div>
-                    <div class="cs_menuBtn cs_menuBtn_last">전자금융</div>
-                    <div class="cs_menuBtn_empty">&nbsp;</div>
-                    <div class="cs_menuBtn_empty cs_menuBtn_last">&nbsp;</div>
-                </div>
-            </div>
 
             <table>
                 <tr style="background-color: #E1545A;color:white;">
@@ -147,7 +132,6 @@
                         <input type="checkbox" class="all_select">
                     </th>
                     <th>No.</th>
-                    <th>유형</th>
                     <th>제목</th>
                     <th>날짜</th>
                     <th>상태</th>
@@ -158,9 +142,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>10</td>
-                    <td>수신</td>
-                    <td>만14세 미만 미성년 본인 내점 신규시</td>
-                    <td>25.11.10</td>
+                    <td>(기업뱅킹 법인 비대면실명확인 프로세스 구축) 입찰 재공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -172,9 +155,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>9</td>
-                    <td>수신</td>
-                    <td>만14세 이상 미성년자 본인 내점 해지시</td>
-                    <td>25.11.10</td>
+                    <td>(무선인터넷방화벽(WIPS) 노후 교체) 입찰공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status2">비활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -186,9 +168,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>8</td>
-                    <td>수신</td>
-                    <td>상속인금융거래조회[후견인이 신청]</td>
-                    <td>25.11.10</td>
+                    <td>(통합정보분석(EDW) 시스템 성능증설(S/W부문)) 입찰공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status2">비활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -200,8 +181,7 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>7</td>
-                    <td>카드</td>
-                    <td>개인회원 소득증빙(신규/한도상향) 필요서류</td>
+                    <td>일부 금융기관의 디지털금융망 거래 일시중단 안내</td>
                     <td>25.11.10</td>
                     <td class="status1">활성화</td>
                     <td>
@@ -214,9 +194,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>6</td>
-                    <td>카드</td>
-                    <td>기업회원 현금카드 발급 시 필요서류</td>
-                    <td>25.11.10</td>
+                    <td>외국인 실명확인 서비스 중단 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -228,9 +207,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>5</td>
-                    <td>카드</td>
-                    <td>기업회원(임의단체) 신용카드 발급 시 필요서류</td>
-                    <td>25.11.10</td>
+                    <td>(품질관리시스템 서버 장비 이중화 구축) 입찰 재공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -242,9 +220,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>4</td>
-                    <td>전자금융</td>
-                    <td>(임의단체)전자금융 신규 · 제신고 제출서류 안내[대표자 내점 시]</td>
-                    <td>25.11.10</td>
+                    <td>일부 금융기관의 디지털금융망 거래 일시중단 안내</td>
+                    <td>25.11.11</td>
                     <td class="status2">비활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -256,9 +233,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>3</td>
-                    <td>전자금융</td>
-                    <td>(개인/개인사업자)전자금융 신규 · 제신고 제출서류 안내[만 14세 이상의 본인 내점 시]</td>
-                    <td>25.11.10</td>
+                    <td>(통합정보분석(EDW) 시스템 성능증설(H/W부문)) 입찰공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -270,9 +246,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>2</td>
-                    <td>전자금융</td>
-                    <td>(등기된 법인 및 비영리단체)전자금융 신규 · 제신고 제출서류[법인의 지점/지사]</td>
-                    <td>25.11.10</td>
+                    <td>(마이데이터, NAS 디스크 증설 및 정보계 라이선스 추가) 입찰공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>
@@ -284,9 +259,8 @@
                         <input type="checkbox" class="row-checkbox">
                     </td>
                     <td>1</td>
-                    <td>대출</td>
-                    <td>BNK 공무원우대대출 제출서류 안내</td>
-                    <td>25.11.10</td>
+                    <td>(가상화 서버 OS 업그레이드) 입찰공고 안내</td>
+                    <td>25.11.11</td>
                     <td class="status1">활성화</td>
                     <td>
                         <a href="#" class="delete_btn">삭제</a>

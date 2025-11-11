@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>은행거래 필요서류 보기</title>
+    <title>관리자 이메일 상담 관리</title>
     <link rel="stylesheet" href="/static/css/admin/admin_category.css">
-    <link rel="stylesheet" href="/static/css/admin/admin_documentView.css">
+    <link rel="stylesheet" href="/static/css/admin/admin_emailCounselList.css">
     <link rel="stylesheet" href="/static/css/common/style_font.css"> <!-- 공용 폰트 -->
     <script src="/static/js/admin/admin_category.js"></script>
 </head>
@@ -113,63 +113,133 @@
 
         <div class="main-right">
             <div class="faq_title">
-                <span class="title_sp">은행거래 필요서류 보기</span>
+                <span class="title_sp">이메일 상담 관리</span>
             </div>
 
-            <div class="table_div">
-                <table>
-                    <tr>
-                        <th>유형</th>
-                        <td class="radius_td1">수신</td>
-                    </tr>
-                    <tr>
-                        <th>제목</th>
-                        <td>
-                            <span>
-                                만14세 미만 미성년 본인 내점 신규시
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>내용</th>
-                        <td class="radius_td2">
-                            업무에 필요한 서류는 다음과 같습니다.<br><br>
+            <form action="#" method="post" class="search_form">
+                <input type="text" name="keyword" class="search-input">
+                <input type="submit" class="search-btn" value="검색">
+            </form>
 
-                            1.유효한학생증<br>
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>유형</th>
+                    <th>제목</th>
+                    <th>날짜</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>10</td>
+                    <td>예금</td>
+                    <td>예금 계좌 개설 관련 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>9</td>
+                    <td>예금</td>
+                    <td>예금 이자 지급일 안내 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status2">검토중</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>8</td>
+                    <td>예금</td>
+                    <td>예금 자동이체 설정 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status2">검토중</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>7</td>
+                    <td>예금</td>
+                    <td>예금 잔액 확인 요청</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>6</td>
+                    <td>예금</td>
+                    <td>예금 만기 안내 및 재예치 방법</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>5</td>
+                    <td>대출</td>
+                    <td>대출 연체 관련 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>4</td>
+                    <td>대출</td>
+                    <td>중도 상환 수수료 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status2">검토중</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>3</td>
+                    <td>대출</td>
+                    <td>대출 신청 서류 확인 요청</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>2</td>
+                    <td>대출</td>
+                    <td>대출 금리 비교 상담 요청</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+                <tr class="content_tr detailBtn">
+                    <td>1</td>
+                    <td>대출</td>
+                    <td>주택담보대출 금리 문의</td>
+                    <td>25.11.10</td>
+                    <td class="status1">답변완료</td>
+                    <td>
+                        <a href="#" class="answer_btn">상세보기</a>
+                    </td>
+                </tr>
+            </table>
 
-                            사진과 주민등록번호가 있는 경우에한함<br><br>
-
-                            2.여권<br><br>
-
-                            3.청소년증<br>
-                            청소년증발급신청 확인서포함<br><br>
-
-                            4.주민번호 뒷자리가 없는 학생증+주민등록초본<br>
-
-                            청소년증발급신청 확인서포함<br><br>
-
-                            5.기본증명서<br>
-
-                            미성년자 기준(상세 또는 특정)<br><br>
-
-                            6.가족관계증명서<br>
-
-                            미성년자기준(상세 또는 일반)<br><br>
-
-                            ※비고–발급처,부가설명등<br>
-
-                            -개인정보보호법 제22조 제6항에 따라 법정대리인의 동의가 필요함<br>
-
-                            -예금거래신청서,미성년 예금계좌 개설동의서의 서류를미내점부모(친권자)에게받아와야함<br>
-                        </td>
-                    </tr>
-                </table>
-
-                <div class="bottom-bar">
-                    <button type="button" class="btn btn1">삭제</button>
-                    <button type="button" class="btn btn2">수정</button>
-                    <button type="button" class="btn btn3">목록</button>
-                </div>
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
             </div>
 
         </div>
