@@ -25,7 +25,6 @@ public class productController {
         return  "prod/view";
     }
 
-
     // 회원상품가입
     // STEP 1: 각종 동의
     @GetMapping("/productjoin")
@@ -54,7 +53,5 @@ public class productController {
         log.info("STEP 4 호출");
         return "product/productJoinStage/registerstep04";  // templates/product/productJoinStage/registerstep04.html
     }
-
-
 
 }
