@@ -16,13 +16,13 @@ public class productController {
     // 상품리스트
     @GetMapping("/list")
     public String list(Model model) {
-        return  "prod/list";
+        return  "product/lumpSumList";
     }
 
     // 상품상세정보
     @GetMapping("/view")
     public String view(Model model) {
-        return  "prod/view";
+        return  "product/prodView";
     }
 
     // 회원상품가입
