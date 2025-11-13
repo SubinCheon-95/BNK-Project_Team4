@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>BNK부산은행::prodView</title>
+    <title>BNK부산은행::Home</title>
 
     <link rel="stylesheet" th:href="@{/css/common/style_common.css}">
     <link rel="stylesheet" th:href="@{/css/common/style_font.css}">
     <link href="//cdn.jsdelivr.net/xeicon/2/xeicon.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/index.css}">
-    <link rel="stylesheet" th:href="@{/css/_footer.css}">
     
     <script th:src="@{/js/_header.js}" defer></script>
     <script th:src="@{/js/banner.js}" defer></script>
-
+    <script th:src="@{/js/globalBtn.js}" defer></script>
+    <script th:src="@{/js/searchOverlay.js}" defer></script>
     <script th:src="@{/js/tradingview.js}" defer></script>
 </head>
 
@@ -28,13 +28,44 @@
                 </a>
                 <div class="util_name">금융상품</div>
                 <div class="util_spacer"></div>
-                <a href="#">로그인</a>
-                <a href="#">고객센터</a>
-                <a href="#">은행소개</a>
-                <a href="#">Global <i class="xi-caret-down-min"></i></a>
-                <i class="xi-search"></i>
+                <a th:href="@{/member/login}">로그인</a>
+                <a th:href="@{/}">고객센터</a>
+                <a th:href="@{/company/company}">은행소개</a>
+                <div class="global-wrap">
+                    <button class="global-btn">
+                        Global <i class="xi-caret-down-min global-icon"></i>
+                    </button>
+
+                    <ul class="global-dropdown">
+                        <li data-lang="ko"><img th:src="@{/images/main/kr1x1.png}"> 한국어</li>
+                        <li data-lang="en"><img th:src="@{/images/main/us1x1.png}"> English</li>
+                        <li data-lang="jp"><img th:src="@{/images/main/jp1x1.png}"> 日本語</li>
+                        <li data-lang="cn"><img th:src="@{/images/main/cn1x1.png}"> 中文</li>
+                    </ul>
+                </div>
+                <i class="xi-search search-open-btn"></i>
             </div>
         </article>
+
+        <div class="search-overlay">
+            <div class="search-bg"></div>
+
+            <div class="search-inner-bg">
+                <div class="search-inner">
+                    <h2>키워드 검색</h2>
+                    <div class="search-box">
+                        <input type="text" placeholder="검색어를 입력하세요.">
+                        <button class="search-submit">
+                            <i class="xi-search" id="openSearch"></i>
+                        </button>
+                    </div>
+
+                    <button class="search-close">
+                        <i class="xi-close"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- Header 끝 -->
 
@@ -169,25 +200,25 @@
         </p>
 
         <div class="deposit-list">
-            <a th:href="@{/prod/view}" class="deposit-item">
+            <a th:href="@{prod/view}" class="deposit-item">
                 <h3>BNK내맘대로예금</h3>
                 <p>내가 원하는대로, 하고싶은대로<br>
                     내맘대로 설계하는 신나는 정기예금</p>
             </a>
 
-            <a th:href="@{/prod/view}" class="deposit-item">
+            <a th:href="@{prod/view}" class="deposit-item">
                 <h3>더(The) 레벨업 정기예금</h3>
                 <p>비대면 정기예금 재예치 시<br>
                     우대금리를 적용하는 재예치 특화상품</p>
             </a>
 
-            <a th:href="@{/prod/view}" class="deposit-item">
+            <a th:href="@{prod/view}" class="deposit-item">
                 <h3>저탄소 실천 예금</h3>
                 <p>생활 속에서 탄소 배출 감축에 참여하는<br>
                     고객 실천형 환경 상품</p>
             </a>
 
-            <a th:href="@{/prod/view}" class="deposit-item">
+            <a th:href="@{prod/view}" class="deposit-item">
                 <h3>LIVE정기예금</h3>
                 <p>넝쿨째 굴러온 특별한 혜택<br>
                     특판 전용 정기예금을 만나보세요.</p>
@@ -259,7 +290,73 @@
         </div>
     </section>
 
-    <!-- Footer 부분 -->
-    <div th:replace="~{_footer :: footerFragment}"></div>
+    <section class="footer-info">
+        <div class="container footer-info-row">
+
+            <!-- 왼쪽: 링크 리스트 -->
+            <div class="footer-link">
+                <div>
+                    <a href="#">• 상품공시실 <i class="xi-arrow-right"></i></a>
+                    <a href="#">• 금융소비자보호 <i class="xi-arrow-right"></i></a>
+                    <a href="https://portal.kfb.or.kr/main/main.php#pos01">• 비교조회서비스 <i class="xi-arrow-right"></i></a>
+                </div>
+
+                <div>
+                    <a href="#">• 서식/약관/자료실 <i class="xi-arrow-right"></i></a>
+                    <a href="#">• 고객센터 <i class="xi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- 가운데: 고객상담 번호 -->
+            <div class="footer-center">
+                <p class="label">고객상담 <span class="label-s">평일 09:00~18:00 (은행 휴무일 제외)</span></p>
+                <p class="tel">1588-6200, 1544-6200</p>
+                <p class="sub">
+                    해외<br>
+                    +82-2-1588-6200
+                </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- 오른쪽: 버튼 -->
+            <div class="footer-button">
+                <a href="#" class="btn">고객센터</a>
+                <a href="#" class="btn">고객상담</a>
+            </div>
+        </div>
+    </section>
+
+    <footer th:fragment="footerFragment">
+        <section class="footer">
+            <div class="container">
+                <div class="f-link">
+                    <a href="#" class="link-active">개인정보처리방침</a>
+                    <a href="#">고객정보취급방침</a>
+                    <a href="#">보호금융상품등록부</a>
+                    <a href="#">경영공시</a>
+                    <a href="#">상품공시실</a>
+                    <a href="#">전자민원접수</a>
+                    <a href="#">전자금융이용자보호수칙</a>
+                    <a href="#">전자금융사기피해금환급제도</a>
+                    <a href="#">위치기반서비스 이용약관</a>
+                </div>
+                <div class="f-number">
+                    고객센터<strong>1588-6200, 1544-6200</strong>, 해외<strong>+82-2-1588-6200</strong>
+                </div>
+                <div class="f-copy">COPYTRIGHT © 2014 BUSANBANK. ALL RIGHTS RESERVED.</div>
+                <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
+                        <path d="m17 11-5-5-5 5"/>
+                        <path d="m17 18-5-5-5 5"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </footer>
 </body>
 </html>
