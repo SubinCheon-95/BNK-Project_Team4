@@ -74,6 +74,7 @@ public class introduceController {
     public String adminsetting(Model model) {
         return  "company/adminsetting";
     }
+    //
 
 
 }
