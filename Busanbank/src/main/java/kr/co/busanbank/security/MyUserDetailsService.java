@@ -10,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final MemberMapper memberMapper;
+    private final kr.co.busanbank.mapper.MemberMapper memberMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
