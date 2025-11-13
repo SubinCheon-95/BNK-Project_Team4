@@ -31,6 +31,14 @@
         SELECT * FROM USERS WHERE userId = #{userId}
     </select>
 
+    <select id="findUserIdInfoEmail" resultType="kr.co.busanbank.dto.UsersDTO">
+        SELECT userId, userName, email FROM USERS WHERE userName = #{userName} AND email = #{email}
+    </select>
+
+    <select id="findUserIdInfoHp" resultType="kr.co.busanbank.dto.UsersDTO">
+        SELECT userId, name, hp FROM USERS WHERE userName = #{userName} AND hp = #{hp}
+    </select>
+
     <select id="countByUserId" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM USERS WHERE userId = #{userId}
     </select>
@@ -44,11 +52,6 @@
     </select>
 
 
-    <select id="login" resultType="kr.co.busanbank.dto.UsersDTO">
-        SELECT *
-        FROM USERS
-        WHERE userId = #{userId}
-        AND userPw = #{userPw}
-    </select>
+
 
 </mapper>

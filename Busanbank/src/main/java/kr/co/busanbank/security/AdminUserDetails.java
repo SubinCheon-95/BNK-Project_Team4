@@ -1,5 +1,6 @@
 package kr.co.busanbank.security;
 
+import kr.co.busanbank.dto.AdminDTO;
 import kr.co.busanbank.dto.UsersDTO;
 import lombok.Builder;
 import lombok.Data;
@@ -13,26 +14,26 @@ import java.util.List;
 
 @Data
 @Builder
-public class MyUserDetails implements UserDetails {
+public class AdminUserDetails implements UserDetails {
 
-    private UsersDTO usersDTO;
+    private AdminDTO adminDTO;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 계정 목록 리스트 생성, 인가 처리에 사용
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+ usersDTO.getRole())); // 계정 권한 앞에 접두에 ROLE_ 작성!!!
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+ adminDTO.getAdminRole())); // 계정 권한 앞에 접두에 ROLE_ 작성!!!
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return usersDTO.getUserPw();
+        return adminDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return usersDTO.getUserId();
+        return adminDTO.getLoginId();
     }
 
     @Override
