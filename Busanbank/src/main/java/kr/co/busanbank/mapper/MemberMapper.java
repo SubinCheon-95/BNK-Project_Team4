@@ -1,6 +1,6 @@
 package kr.co.busanbank.mapper;
 
-import kr.co.busanbank.project.dto.UsersDTO;
+import kr.co.busanbank.dto.UsersDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
