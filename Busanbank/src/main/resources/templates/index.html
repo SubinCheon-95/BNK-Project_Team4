@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>BNK부산은행::prodView</title>
 
-    <link rel="stylesheet" href="/src/main/resources/static/css/common/style_common.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/common/style_font.css">
+    <link rel="stylesheet" th:href="@{/css/common/style_common.css}">
+    <link rel="stylesheet" th:href="@{/css/common/style_font.css}">
     <link href="//cdn.jsdelivr.net/xeicon/2/xeicon.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/src/main/resources/static/css/index.css">
-    <link rel="stylesheet" href="/src/main/resources/static/css/_footer.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/_footer.css}">
     
-    <script src="/src/main/resources/static/js/_header.js" defer></script>
-    <script src="/src/main/resources/static/js/quotation.js" defer></script>
-    <script src="/src/main/resources/static/js/banner.js" defer></script>
+    <script th:src="@{/js/_header.js}" defer></script>
+    <script th:src="@{/js/banner.js}" defer></script>
+
+    <script th:src="@{/js/tradingview.js}" defer></script>
 </head>
 
 <body>
@@ -22,7 +23,10 @@
         <!-- 상단 유틸 -->
         <article class="util">
             <div class="container util_row">
-                <img class="util_logo" src="/src/main/resources/static/images/main/Busanbank_logo.png" alt="BNK부산은행"></img>
+                <a th:href="@{/}" class="util_logo" aria-label="부산은행 홈">
+                    <img class="logo-img" th:src="@{/images/main/Busanbank_logo.png}" alt="부산은행 로고"></img>
+                </a>
+                <div class="util_name">금융상품</div>
                 <div class="util_spacer"></div>
                 <a href="#">로그인</a>
                 <a href="#">고객센터</a>
@@ -39,7 +43,7 @@
         <!-- 예금 상품 카드 -->
         <div class="slide-track">
             <!-- 코인 -->
-            <div class="slide active" style="background-image: url('/src/main/resources/static/images/main/main-1.png')">
+            <div class="slide active" th:style="|background-image: url('@{/images/main/main-1.png}')|">
                 <div class="product-card">
                     <h2 class="product-title">BNK코인투자예금</h2>
                     <p class="product-desc">
@@ -51,7 +55,7 @@
             </div>
 
             <!-- 금 -->
-            <div class="slide" style="background-image: url('/src/main/resources/static/images/main/main-2.png')">
+            <div class="slide" th:style="|background-image: url('@{/images/main/main-1.png}')|">
                 <div class="product-card">
                     <h2 class="product-title">BNK골드예금</h2>
                     <p class="product-desc">
@@ -63,45 +67,46 @@
             </div>
 
             <!-- 원유 -->
-            <div class="slide" style="background-image: url('/src/main/resources/static/images/main/main-3.png')">
+            <div class="slide" th:style="|background-image: url('@{/images/main/main-1.png}')|">
                 <div class="product-card">
                     <h2 class="product-title">BNK오일예금</h2>
                     <p class="product-desc">
                     흐름을 읽는 투자, 에너지의 가치를 담다.<br>
-                    글로벌 시장의 움직임을 예금으로 연결하다
+                    글로벌 시장의 움직임을 예금으로 연결하다.
                     </p>
                     <button class="product-btn">바로가기</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- 실시간 시세 정보 (고정) -->
-        <div class="market-info">
+        <div class="market-info" data-krw-rate="1400">
             <h3 class="market-title">실시간 시세 정보</h3>
             <div class="market-cards">
                 <div class="card">
                     <h4>비트코인 <span>(BTC/KRW)</span></h4>
-                    <p class="price" id="btc-price">156,351,000 KRW</p>
-                    <p class="change up" id="btc-change">+2.08%</p>
-                    <p class="time" id="btc-time">Update 10:34:26</p>
+                    <p class="price" id="btc-price" aria-live="polite">-</p>
+                    <p class="change" id="btc-change" aria-live="polite">-</p>
+                    <p class="time" id="btc-time">Loading...</p>
                 </div>
                 <div class="card">
                     <h4>금 시세 <span>(1g)</span></h4>
-                    <p class="price" id="gold-price">87,230 KRW</p>
-                    <p class="change down" id="gold-change">-0.20%</p>
-                    <p class="time" id="gold-time">Update 10:34:26</p>
+                    <p class="price" id="gold-price" aria-live="polite">-</p>
+                    <p class="change" id="gold-change" aria-live="polite">-</p>
+                    <p class="time" id="gold-time">Loading...</p>
                 </div>
                 <div class="card">
-                    <h4>WTI 원유 <span>(USD/barrel)</span></h4>
-                    <p class="price" id="oil-price">59.87 USD</p>
-                    <p class="change down" id="oil-change">-0.43%</p>
-                    <p class="time" id="oil-time">Update 10:34:26</p>
+                    <h4>크루드 오일 <span>(USD/barrel)</span></h4>
+                    <p class="price" id="oil-price" aria-live="polite">-</p>
+                    <p class="change" id="oil-change" aria-live="polite">-</p>
+                    <p class="time" id="oil-time">Loading...</p>
                 </div>
             </div>
         </div>
     </section>
     <!-- 슬라이드 배너 + 시세 카드 끝 -->
 
+    <section>
         <!-- GNB -->
         <article class="gnb">
             <div class="container gnb_row">
@@ -155,34 +160,106 @@
         </article>
     </section>
 
-    <footer>
-        <section class="footer">
-            <div class="container">
-                <div class="f-link">
-                    <a href="#" class="link-active">개인정보처리방침</a>
-                    <a href="#">고객정보취급방침</a>
-                    <a href="#">보호금융상품등록부</a>
-                    <a href="#">경영공시</a>
-                    <a href="#">상품공시실</a>
-                    <a href="#">전자민원접수</a>
-                    <a href="#">전자금융이용자보호수칙</a>
-                    <a href="#">전자금융사기피해금환급제도</a>
-                    <a href="#">위치기반서비스 이용약관</a>
-                </div>
-                <div class="f-number">
-                    고객센터<strong>1588-6200, 1544-6200</strong>, 해외<strong>+82-2-1588-6200</strong>
-                </div>
-                <div class="f-copy">COPYTRIGHT © 2014 BUSANBANK. ALL RIGHTS RESERVED.</div>
-                <button id="topBtn" class="top-btn" aria-label="맨 위로 이동">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-chevrons-up-icon lucide-chevrons-up">
-                        <path d="m17 11-5-5-5 5"/>
-                        <path d="m17 18-5-5-5 5"/>
-                    </svg>
-                </button>
+    <section class="deposit-section">
+        <p class="body-title">
+            <span class="red">부산은행</span>만의
+            <span class="title-big">
+                특별한 <span class="orange">예금상품</span>을 확인해 보세요.
+            </span>
+        </p>
+
+        <div class="deposit-list">
+            <a th:href="@{/prod/view}" class="deposit-item">
+                <h3>BNK내맘대로예금</h3>
+                <p>내가 원하는대로, 하고싶은대로<br>
+                    내맘대로 설계하는 신나는 정기예금</p>
+            </a>
+
+            <a th:href="@{/prod/view}" class="deposit-item">
+                <h3>더(The) 레벨업 정기예금</h3>
+                <p>비대면 정기예금 재예치 시<br>
+                    우대금리를 적용하는 재예치 특화상품</p>
+            </a>
+
+            <a th:href="@{/prod/view}" class="deposit-item">
+                <h3>저탄소 실천 예금</h3>
+                <p>생활 속에서 탄소 배출 감축에 참여하는<br>
+                    고객 실천형 환경 상품</p>
+            </a>
+
+            <a th:href="@{/prod/view}" class="deposit-item">
+                <h3>LIVE정기예금</h3>
+                <p>넝쿨째 굴러온 특별한 혜택<br>
+                    특판 전용 정기예금을 만나보세요.</p>
+            </a>
+        </div>
+
+        <div class="benefit-banner">
+            <div class="benefit-left">
+                <img th:src="@{/images/main/Coins-amico.png}" alt="코인 아이콘">
+                <p>
+                    부산은행의 인터넷 예금 신규 개설 시,
+                    특별한 <span class="highlight">금리 혜택</span>을 드립니다.
+                </p>
             </div>
-        </section>
-    </footer>
+            <a href="#" class="benefit-link">혜택 알아보기 <i class="xi-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- section 2 & 3 -->
+    <section class="ai-section">
+        <div class="inner">
+
+            <div class="ai-box blue">
+                <div class="ai-text">
+                    <div class="ai-copy-wrap">
+                        <p class="ai-title">
+                            <span class="red">부산은행</span>의
+                            <span class="ai-title-big">
+                                스마트한 <span class="blue">AI 추천 예금</span>을<br>
+                                만나 보세요.
+                            </span>
+                        </p>
+                        <p class="ai-copy">
+                            나에게 꼭 맞는 예금,<br>
+                            AI가 스마트하게 제안합니다.<br>
+                            분석은 보다 똑똑하게,<br>
+                            선택은 보다 간편하게.
+                        </p>
+                    </div>
+                    <a href="#" class="ai-link-b">AI 추천 예금 바로가기 <i class="xi-arrow-right"></i></a>
+                </div>
+                <div class="ai-img">
+                    <img th:src="@{/images/main/Data-extraction-pana.png}" class="img1" alt="AI 추천 예금">
+                </div>
+            </div>
+
+            <div class="ai-box green">
+                <div class="ai-text">
+                    <div class="ai-copy-wrap">
+                        <p class="ai-title">
+                            <span class="red">부산은행</span>의
+                            <span class="ai-title-big">
+                                든든한 <span class="green">금융 감정 분석</span>을<br>
+                                경험해 보세요.
+                            </span>
+                        </p>
+                        <p class="ai-copy">
+                            데이터를 넘어, 마음을 읽는 금융.<br>
+                            부산은행의 AI 금융 감정 분석으로<br>
+                            시장의 심리를 한눈에 파악하세요.
+                        </p>
+                    </div>
+                    <a href="#" class="ai-link-g">금융 감정 분석 서비스 바로가기 <i class="xi-arrow-right"></i></a>
+                </div>
+                <div class="ai-img">
+                    <img th:src="@{/images/main/Financial-data-amico.png}" class="img2" alt="금융 감정 분석">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer 부분 -->
+    <div th:replace="~{_footer :: footerFragment}"></div>
 </body>
 </html>
