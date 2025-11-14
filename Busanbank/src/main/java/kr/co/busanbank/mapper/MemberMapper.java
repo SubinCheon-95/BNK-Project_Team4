@@ -16,5 +16,9 @@ public interface MemberMapper {
     int countByEmail(@Param("email") String email);
     int countByHp(@Param("hp") String hp);
 
-    UsersDTO login(@Param("userId") String userId, @Param("userPw") String userPw);
+    UsersDTO findUserIdInfoEmail(@Param("userName") String userName, @Param("email") String email);
+
+    UsersDTO findUserIdInfoHp(@Param("userName") String userName, @Param("hp") String hp);
+
+
 }
