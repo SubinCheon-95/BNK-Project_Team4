@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final kr.co.busanbank.mapper.MemberMapper memberMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {

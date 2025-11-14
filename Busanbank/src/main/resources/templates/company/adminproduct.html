@@ -1,994 +1,1334 @@
+<!--adminproduct.html-->
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 목록 관리 - BNK 부산은행 관리자</title>
-    
+    <title>상품 목록 관리</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /*admin_category.css*/
+        .main-left { /* 왼쪽 레이아웃 */
+            background: #E1545A 0% 0% no-repeat padding-box;
+            left: 0px;
+            opacity: 1;
+            position: relative;
+            top: 0px;
+            width: 360px;
         }
-
-        body {
-            font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-            background-color: #f5f5f5;
+        .main-logo { /* 로고 */
+            height: 25px;
+            left: 50px;
+            position: relative;
+            top: 50px;
+            width: 183px;
         }
-
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* ===== LEFT SIDEBAR ===== */
-        .main-left {
-            width: 260px;
-            background: linear-gradient(180deg, #D03238 0%, #E1545A 100%);
-            color: white;
-            padding: 20px;
-            overflow-y: auto;
-            position: fixed;
-            height: 100vh;
-        }
-
-        .main-logo {
-            width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-            object-fit: contain;
-        }
-
         .first-line {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
+            height: 30px;
+            left: 50px;
+            position: absolute;
+            top: 95px;
+            width: 260px;
         }
-
         .name_sp {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .name-right {
-            display: flex;
             align-items: center;
-            gap: 10px;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            display: flex;
+            font: normal normal 600 14px/16px Pretendard;
+            height: 30px;
+            justify-content: center;
+            opacity: 1;
+            width: 70px;
         }
-
         .welcome_sp {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .logout_btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            padding: 5px 8px;
-            transition: all 0.3s;
-        }
-
-        .logout_btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .logout_img {
-            width: 16px;
+            color: #FFFFFF;
+            font: normal normal 14px/16px Pretendard;
+            font-weight: 500;
             height: 16px;
-        }
-
-        .search-box {
-            display: flex;
-            margin-bottom: 20px;
-            gap: 5px;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 10px 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        .search_btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            padding: 8px 12px;
-            transition: all 0.3s;
-        }
-
-        .search_btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .search_img {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ===== CATEGORY ===== */
-        .category {
-            margin-bottom: 20px;
-        }
-
-        .category-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: all 0.3s;
-        }
-
-        .category-header:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .category-icon {
-            width: 24px;
-            height: 24px;
-            color: white;
-        }
-
-        .category_sp {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .category-ul {
-            list-style: none;
+            letter-spacing: 0px;
+            opacity: 1;
             padding-left: 10px;
         }
-
-        .category-li {
-            margin-bottom: 5px;
-        }
-
-        .category-a {
-            display: block;
-            padding: 10px 15px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 13px;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
-
-        .category-a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding-left: 20px;
-        }
-
-        .category-a.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: 600;
-        }
-
-        .footer_div {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 11px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
-        /* ===== MAIN RIGHT ===== */
-        .main-right {
-            margin-left: 260px;
-            flex: 1;
-            padding: 30px;
-            background-color: #faf9f8;
-            overflow-y: auto;
-        }
-
-        .page-header {
+        .name-right {
+            align-items: center;
             display: flex;
             justify-content: space-between;
+            width: 100%;
+        }
+        .logout_btn { /* 로그아웃 버튼 */
+            background-color: #E1545A;
+            border:none;
+            cursor: pointer;
+        }
+        .logout_img { /* 로그아웃 이미지 */
+            height: 18px;
+            width: 18px;
+        }
+        .search-box { /*검색창*/
             align-items: center;
-            margin-bottom: 25px;
+            display: flex;
+            height: 45px;
+            left: 50px;
+            position: absolute;
+            top: 135px;
+            width: 260px;
+        }
+        #search_input {
+            border: none;
+            height: 45px;
+            outline: none;
+            padding-left: 15px;
+            width: 227px;
+        }
+        #search_input::placeholder {
+            color:#B9B9B9;
+            text-indent: 15px;
+        }
+        .search_btn {
+            background-color: white;
+            border:none;
+            cursor: pointer;
+            height: 45px;
+            padding-right:15px;
+        }
+        .search_img {
+            height: 18px;
+            width: 18px;
+        }
+        .category1 { /* 카테고리 */
+            cursor: pointer;
+            display: flex;
+            left: 50px;
+            position: absolute;
+            top: 230px;
+            width: 262px;
+        }
+        .category1_img_div {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        }
+        .category_sp {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            border-left: none;
+            display: flex;
+            font: normal normal 600 16px/24px Pretendard;
+            height: 50px;
+            justify-content: center;
+            width:212px;
+        }
+        .category1-ul {
+            display: none;
+            left: 100px;
+            list-style: none;
+            position: absolute;
+            top: 280px;
+            width: 262px;
+        }
+        .category-li {
+            height: 50px;
+            width: 212px;
+        }
+        .category-a{
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            border-top: none;
+            color:#666666;
+            display: block;
+            display: flex;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: Pretendard;
+            height: 50px;
+            justify-content: center;
+            line-height: 18px;
+            text-decoration: none;
+        }
+
+        .category2 {
+            cursor: pointer;
+            display: flex;
+            left: 50px;
+            position: absolute;
+            top: 295px;
+            transition: top 0.3s ease;
+            width: 262px;
+        }
+        .category2_img_div {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        }
+        .category2-ul {
+            display: none;
+            left: 100px;
+            list-style: none;
+            position: absolute;
+            top: 345px;
+            width: 262px;
+        }
+
+        .category3 {
+            cursor: pointer;
+            display: flex;
+            left: 50px;
+            position: absolute;
+            top: 360px;
+            width: 262px;
+            transition: top 0.3s ease;
+        }
+        .category3_img_div {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        }
+        .category3-ul {
+            display: none;
+            left: 100px;
+            list-style: none;
+            position: absolute;
+            top: 410px;
+            width: 262px;
+        }
+
+        .category4 {
+            cursor: pointer;
+            display: flex;
+            left: 50px;
+            position: absolute;
+            top: 425px;
+            transition: top 0.3s ease;
+            width: 262px;
+        }
+        .category4_img_div {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        }
+        .category4-ul {
+            display: none;
+            left: 100px;
+            list-style: none;
+            position: absolute;
+            top: 475px;
+            width: 262px;
+        }
+
+        .category5 {
+            cursor: pointer;
+            display: flex;
+            left: 50px;
+            position: absolute;
+            top: 490px;
+            transition: top 0.3s ease;
+            width: 262px;
+        }
+        .category5_img_div {
+            align-items: center;
+            background-color: white;
+            border: 2px solid #FFB9BD;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        }
+        .category5-ul {
+            display: none;
+            left: 100px;
+            list-style: none;
+            position: absolute;
+            top: 540px;
+            width: 262px;
+        }
+
+        .footer_div { /* main-left의 footer */
+            color: white;
+            font: normal normal 300 12px/16px Pretendard;
+            left: 50px;
+            position: absolute;
+            text-align: left;
+            top: 1000px;
+        }
+    </style>
+    <style>
+        /*admin_product.css*/
+        * {  /* 공통 세팅 */
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-right { /* 오른쪽 레이아웃 */
+            background: #FFE9EA 0% 0% no-repeat padding-box;
+            height: 1080px;
+            left: 360px;
+            opacity: 1;
+            top: 0px;
+            width: 1560px;
         }
 
         .productList_title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        /* ===== TAB BUTTONS ===== */
-        .tab-buttons {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            left: 410px;
+            position: absolute;
+            top: 86px;
+            width:1460px;
         }
-
-        .tab-btn {
-            padding: 8px 20px;
+        .title_sp {
+            color:#D03238;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: 600;
+            font-size: 24px;
+            font-family: Pretendard;
+            line-height: 29px;
+        }
+        .title_btn {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            border: 1px solid #E1545A;
+            border-radius: 5px;
+            color: #666666;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            transition: all 0.3s;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: 600;
+            font-size: 16px;
+            font-family: Pretendard;
+            height: 35px;
+            line-height: 24px;
+            width: 100px;
         }
-
-        .tab-btn:hover {
-            border-color: #D03238;
-            color: #D03238;
-        }
-
-        .tab-btn.active {
-            background-color: #D03238;
-            color: white;
-            border-color: #D03238;
-        }
-
-        /* ===== TABLE ===== */
-        .table-container {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table thead {
+        .title_btn.active {
             background-color: #E1545A;
             color: white;
         }
 
-        table th {
-            padding: 14px;
-            text-align: left;
-            font-size: 13px;
+        table {
+            border-collapse: collapse;
+            box-shadow: 0px 4px 10px #00000029;
+            left: 410px;
+            position: absolute;
+            top: 135px;
+            width: 1460px;
+        }
+        th {
+            font-style: normal;
+            font-variant: normal;
             font-weight: 600;
-            border-bottom: 2px solid #D03238;
+            font-size: 18px;
+            font-family: Pretendard;
+            height: 60px;
+            line-height: 24px;
         }
-
-        table th:first-child {
-            border-radius: 8px 0 0 0;
-        }
-
-        table th:last-child {
-            border-radius: 0 8px 0 0;
-        }
-
-        table tbody tr {
-            border-bottom: 1px solid #e9e9e9;
-            transition: all 0.3s;
-        }
-
-        table tbody tr:hover {
-            background-color: #fff9f9;
-        }
-
-        table td {
-            padding: 14px;
-            font-size: 13px;
-            color: #333;
-        }
-
-        table tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .action-btn {
-            width: 28px;
-            height: 28px;
-            border: 1px solid #ddd;
+        .content_tr {
             background-color: white;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: all 0.3s;
+            border-bottom: 1px solid #B9B9B9;
+            text-align: center;
         }
-
-        .action-btn:hover {
-            border-color: #D03238;
-            color: #D03238;
-            background-color: #fff9f9;
-        }
-
-        .status-active {
-            color: #00B050;
-            font-weight: 600;
-        }
-
-        .status-inactive {
-            color: #8d8989;
-            font-weight: 600;
-        }
-
-        .status-pending {
-            color: #FFA500;
-            font-weight: 600;
-        }
-
-        /* ===== PAGINATION ===== */
-        .page_div {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .pagenation {
-            display: flex;
-            list-style: none;
-            gap: 5px;
-        }
-
-        .pagenation a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border: 1px solid #ddd;
+        .content_tr_last {
             background-color: white;
-            color: #333;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 13px;
+            text-align: center;
+        }
+        td {
+            font-style: normal;
+            font-variant: normal;
             font-weight: 500;
-            transition: all 0.3s;
+            font-size: 14px;
+            font-family: Pretendard;
+            height: 51px;
+            line-height: 16px;
+        }
+        .productList_btn {
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            height: 18px;
+            width: 18px;
+        }
+        .toggle_div {
+            display: inline-block;
+            height: 18px;
+            margin: 0 10px;
+            width: 18px;
+            vertical-align: middle;
+        }
+        .toggleSwitch {
+            background-color: #fff;
+            border: 1px solid #666666;
+            border-radius: 10px;
+            cursor: pointer;
+            display: block;
+            height: 12px;
+            position: relative;
+            width: 18px;
         }
 
-        .pagenation a:hover {
-            border-color: #D03238;
-            color: #D03238;
+        .toggleSwitch .toggleButton {
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            top: 50%;
+            left: 2px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #666666;
+        }
+        #toggle:checked ~ .toggleSwitch {
+            background: #666666;
         }
 
-        .pagenation a.active {
-            background-color: #D03238;
+        #toggle:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        .toggleSwitch, .toggleButton {
+            transition: all 0.2s ease-in;
+        }
+
+        .productList_btn,
+        .toggleSwitch {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* 이 밑으로 보여주기식 css*/
+        #toggle2:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle2:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        #toggle3:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle3:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        #toggle4:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle4:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        #toggle5:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle5:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        #toggle6:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle6:checked ~ .toggleSwitch .toggleButton {
+            background: #fff;
+            left: calc(100% - 10px);
+        }
+        #toggle7:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle7:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle8:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle8:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle9:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle9:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle10:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle10:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle11:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle11:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle12:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle12:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle13:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle13:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle14:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle14:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+        #toggle15:checked ~ .toggleSwitch {
+            background: #666666;
+        }
+
+        #toggle15:checked ~ .toggleSwitch .toggleButton {
+            left: calc(100% - 10px);
+            background: #fff;
+        }
+
+
+        /*페이지네이션 부분*/
+        .page_div {
+            left: 1625px;
+            position: absolute;
+            top: 990px;
+        }
+        .pagenation {
+            width: 100%;
+            height: 62px;
+            padding:0px;
+            text-align: center;
+        }
+        .pagenation li {
+            border: 1px solid #B9B9B9;
+            display: inline-block;
+            list-style: none;
+            width: 32px;
+            height: 32px;
+        }
+        .pagenation .page1 {
+            background-color: #E1545A;
             color: white;
-            border-color: #D03238;
-        }
-
-        .prev::before {
-            content: "‹";
-            font-size: 20px;
-        }
-
-        .next::after {
-            content: "›";
-            font-size: 20px;
-        }
-
-        /* ===== MODAL ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            display: block;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
+            text-align: center;
+            text-decoration: none;
         }
-
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
+        .pagenation .page2, .pagenation .page3 {
             background-color: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s;
+            color: #B9B9B9;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
         }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .pagenation li a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
         }
-
-        .modal-header {
+        .pagenation li a span {
+            background-size: contain;
+            background-repeat: no-repeat;
+            display:inline-block;
+            width: 10px;
+            height: 10px;
+        }
+        .pagenation .prev {
+            background-image: url('/static/images/admin/btn-prev-page.png');
+        }
+        .pagenation .next {
+            background-image: url('/static/images/admin/btn-next-page.png');
+        }
+    </style>
+    <style>
+        .tab-container {
+            display: none;
+        }
+        .tab-container.active {
+            display: block;
+        }
+        .tab-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #e9e9e9;
-            background-color: #f9f9f9;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
         }
-
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .close {
-            font-size: 24px;
-            font-weight: 700;
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: white;
             cursor: pointer;
-            color: #999;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
+        .tab-btn.active {
+            color: #E1545A;
+            border-bottom-color: #E1545A;
+            font-weight: bold;
+        }
+        .tab-btn:hover {
+            color: #E1545A;
+        }
+    </style>
 
-        .close:hover {
-            color: #333;
+    <script>/*admin_productList.js*/
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.title_btn');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 모든 버튼 비활성화
+                buttons.forEach(b => b.classList.remove('active'));
+
+                // 클릭된 버튼만 활성화
+                btn.classList.add('active');
+            });
+        });
+    });
+    </script>
+    <script>
+        /*admin_category.js*/
+        document.addEventListener('DOMContentLoaded', () => {
+            const categories = [
+                { button: '.category1', menu: '.category1-ul' },
+                { button: '.category2', menu: '.category2-ul' },
+                { button: '.category3', menu: '.category3-ul' },
+                { button: '.category4', menu: '.category4-ul' },
+                { button: '.category5', menu: '.category5-ul' }
+            ];
+
+            const initialTops = {
+                category2: 295,
+                category3: 360,
+                category4: 425,
+                category5: 490
+            };
+
+            const getHeight = (el) => el.offsetHeight || 0;
+
+            // 모든 메뉴 닫기 함수
+            const closeAll = () => {
+                categories.forEach(({ menu }) => {
+                    document.querySelector(menu).style.display = 'none';
+                });
+            };
+
+            // top 위치 초기화 함수
+            const resetTops = () => {
+                document.querySelector('.category2').style.top = initialTops.category2 + 'px';
+                document.querySelector('.category3').style.top = initialTops.category3 + 'px';
+                document.querySelector('.category4').style.top = initialTops.category4 + 'px';
+                document.querySelector('.category5').style.top = initialTops.category5 + 'px';
+            };
+
+            categories.forEach(({ button, menu }, index) => {
+                const btn = document.querySelector(button);
+                const submenu = document.querySelector(menu);
+
+                btn.addEventListener('click', () => {
+                    const isOpen = submenu.style.display === 'block';
+
+                    // 모든 메뉴 닫고 top 초기화
+                    closeAll();
+                    resetTops();
+
+                    if (!isOpen) {
+                        // 현재 클릭한 메뉴만 열기
+                        submenu.style.display = 'block';
+
+                        // 현재 인덱스 이후 카테고리들의 위치 조정
+                        const submenuHeight = getHeight(submenu);
+                        for (let i = index + 1; i < categories.length; i++) {
+                            const next = document.querySelector(categories[i].button);
+                            const nextKey = `category${i + 1}`;
+                            next.style.top = (initialTops[nextKey] + submenuHeight) + 'px';
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <style>
+        /* 탭 전환을 위한 추가 스타일 */
+        .tab-content {
+            display: none;
         }
 
-        .modal-body {
-            padding: 25px;
+        .tab-content.active {
+            display: block;
         }
 
-        .form-section {
-            margin-bottom: 25px;
+        /* 각 탭 콘텐츠의 위치 조정 */
+        table {
+            top: 135px !important;
         }
 
-        .section-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #D03238;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e9e9e9;
+        .productList_title {
+            top: 86px !important;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .form-row {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-row.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .form-value {
-            font-size: 13px;
-            color: #333;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            border: 1px solid #e9e9e9;
-        }
-
-        .form-value.highlight-value {
-            background-color: #fff9f9;
-            color: #D03238;
-            font-weight: 600;
-            border-color: #FFB9BD;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            background-color: #D03238;
-            color: white;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-badge.inactive {
-            background-color: #8d8989;
-        }
-
-        .status-badge.pending {
-            background-color: #FFA500;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .main-left {
-                width: 220px;
-            }
-
-            .main-right {
-                margin-left: 220px;
-                padding: 20px;
-            }
-
-            table th, table td {
-                padding: 10px;
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-left {
-                width: 180px;
-            }
-
-            .main-right {
-                margin-left: 180px;
-                padding: 15px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            table {
-                font-size: 11px;
-            }
-
-            table th, table td {
-                padding: 8px;
-            }
+        .page_div {
+            top: 990px !important;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <!-- LEFT SIDEBAR -->
+<div class="container" style="display:flex;">
     <div class="main-left">
-        <div style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">BNK 부산은행</div>
-
+        <img th:src="@{/images/admin/Busanbank_CI-W.png}" alt="BNK 부산은행" class="main-logo">
         <div class="first-line">
             <span class="name_sp">Admin</span>
             <div class="name-right">
                 <span class="welcome_sp">환영합니다!</span>
-                <button class="logout_btn">⏻</button>
+                <button class="logout_btn">
+                    <img th:src="@{/images/admin/log-out.png}" alt="로그아웃 버튼" class="logout_img">
+                </button>
             </div>
         </div>
 
         <div class="search-box">
-            <input type="text" placeholder="Search...">
-            <button class="search_btn">🔍</button>
+            <input type="text" id="search_input" placeholder="Search...">
+            <button class="search_btn">
+                <img th:src="@{/images/admin/magnifier.png}" alt="검색 버튼" class="search_img">
+            </button>
         </div>
 
-        <!-- CATEGORY 1: 환경설정 -->
-        <div class="category">
-            <div class="category-header">
-                <span>⚙️</span>
-                <span class="category_sp">환경설정</span>
+        <div class="category1">
+            <div class="category1_img_div">
+                <img th:src="@{/images/admin/cogwheel.png}" alt="환경설정" style="width: 26px;height: 26px;">
             </div>
-            <ul class="category-ul">
-                <li class="category-li"><a href="#" class="category-a">권리자 계정관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">보안 설정</a></li>
-                <li class="category-li"><a href="#" class="category-a">인증서/OTP 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">사이트 기본 설정</a></li>
-            </ul>
+            <span class="category_sp">환경설정</span>
         </div>
+        <ul class="category1-ul">
+            <li class="category-li"><a href="adminsetting" class="category-a">권리자 계정관리</a></li>
+            <li class="category-li"><a href="adminsetting?tab=security" class="category-a">보안 설정</a></li>
+            <li class="category-li"><a href="adminsetting?tab=certificate" class="category-a">인증서/OTP 관리</a></li>
+            <li class="category-li"><a href="adminsetting?tab=site" class="category-a">사이트 기본 설정</a></li>
+            <li class="category-li"><a href="adminsetting?tab=policy" class="category-a">정책·약관 관리</a></li>
+            <li class="category-li"><a href="adminsetting?tab=api" class="category-a">API 키 / 외부 연동 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">공지사항 관리 (내부)</a></li>
+        </ul>
 
-        <!-- CATEGORY 2: 상품 목록 관리 -->
-        <div class="category">
-            <div class="category-header">
-                <span>💰</span>
-                <span class="category_sp">상품 목록 관리</span>
+        <div class="category2">
+            <div class="category2_img_div">
+                <img th:src="@{/images/admin/banknotes.png}" alt="은행 상품 관리" style="width: 26px;height: 26px;">
             </div>
-            <ul class="category-ul">
-                <li class="category-li"><a href="#" class="category-a active">상품 목록 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 설명 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 약관 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 세부 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 조건 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">큐레이션 상품 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">대출 관리</a></li>
-            </ul>
+            <span class="category_sp">은행 상품 관리</span>
         </div>
+        <ul class="category2-ul">
+            <li class="category-li"><a href="adminproduct" class="category-a">상품 목록 관리</a></li>
+            <li class="category-li"><a href="adminproduct?tab=productDetail" class="category-a">상품 상세 관리</a></li>
+            <li class="category-li"><a href="adminproduct?tab=productTerms" class="category-a">상품 약관 관리</a></li>
+            <li class="category-li"><a href="adminproduct?tab=productCategory" class="category-a">상품 분류 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">금리·환율 관리</a></li>
+            <li class="category-li"><a href="adminproduct?tab=productSubscriber" class="category-a">상품 가입 현황 조회</a></li>
+            <li class="category-li"><a href="#" class="category-a">금융 감정 분석 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">비트코인/금/오일 시세 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">상품 번역 관리</a></li>
+        </ul>
 
-        <!-- CATEGORY 3: 회원 관리 -->
-        <div class="category">
-            <div class="category-header">
-                <span>👤</span>
-                <span class="category_sp">회원 관리</span>
+        <div class="category3">
+            <div class="category3_img_div">
+                <img th:src="@{/images/admin/user.png}" alt="회원 관리" style="width: 26px;height: 26px;">
             </div>
-            <ul class="category-ul">
-                <li class="category-li"><a href="#" class="category-a">회원 목록 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">회원 등급 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">회원 정지 관리</a></li>
-            </ul>
+            <span class="category_sp">회원 관리</span>
         </div>
+        <ul class="category3-ul">
+            <li class="category-li"><a href="#" class="category-a">회원 목록 관리</a></li>
+        </ul>
 
-        <!-- CATEGORY 4: 게시판 관리 -->
-        <div class="category">
-            <div class="category-header">
-                <span>📋</span>
-                <span class="category_sp">게시판 관리</span>
+        <div class="category4">
+            <div class="category4_img_div">
+                <img th:src="@{/images/admin/list.png}" alt="게시판 관리" style="width: 26px;height: 26px;">
             </div>
-            <ul class="category-ul">
-                <li class="category-li"><a href="#" class="category-a">공지사항 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">뉴스 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">FAQ 관리</a></li>
-            </ul>
+            <span class="category_sp">게시판 관리</span>
         </div>
+        <ul class="category4-ul">
+            <li class="category-li"><a href="#" class="category-a">권리자 계정관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">보안 설정</a></li>
+            <li class="category-li"><a href="#" class="category-a">인증서/OTP 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">사이트 기본 설정</a></li>
+            <li class="category-li"><a href="#" class="category-a">정책·약관 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">API 키 / 외부 연동 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">공지사항 관리 (내부)</a></li>
+        </ul>
 
-        <!-- CATEGORY 5: 고객센터 관리 -->
-        <div class="category">
-            <div class="category-header">
-                <span>📞</span>
-                <span class="category_sp">고객센터 관리</span>
+        <div class="category5">
+            <div class="category5_img_div">
+                <img th:src="@{/images/admin/receiver.png}" alt="고객센터 관리" style="width: 26px;height: 26px;">
             </div>
-            <ul class="category-ul">
-                <li class="category-li"><a href="#" class="category-a">문의 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">응답 관리</a></li>
-            </ul>
+            <span class="category_sp">고객센터 관리</span>
         </div>
+        <ul class="category5-ul">
+            <li class="category-li"><a href="#" class="category-a">권리자 계정관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">보안 설정</a></li>
+            <li class="category-li"><a href="#" class="category-a">인증서/OTP 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">사이트 기본 설정</a></li>
+            <li class="category-li"><a href="#" class="category-a">정책·약관 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">API 키 / 외부 연동 관리</a></li>
+            <li class="category-li"><a href="#" class="category-a">공지사항 관리 (내부)</a></li>
+        </ul>
 
         <div class="footer_div">
-            COPYRIGHT<br>© 2014 BUSANBANK.<br>ALL RIGHTS RESERVED.
+            <span>COPYTRIGHT <br>
+                © 2014 BUSANBANK. ALL RIGHTS RESERVED.
+            </span>
         </div>
     </div>
 
-    <!-- MAIN RIGHT -->
     <div class="main-right">
-        <div class="page-header">
-            <div class="productList_title">상품 목록 관리</div>
-            <div class="tab-buttons">
-                <button class="tab-btn active">상품현은</button>
-                <button class="tab-btn">금리손</button>
-                <button class="tab-btn">통록현은</button>
-                <button class="tab-btn">판매상태</button>
+        <!-- 1. 상품 목록 관리 -->
+        <div id="productList" class="tab-content active">
+            <div class="productList_title">
+                <span class="title_sp">상품 목록 관리</span>
+                <div>
+                    <button class="title_btn">상품명순</button>
+                    <button class="title_btn">금리순</button>
+                    <button class="title_btn">등록일순</button>
+                    <button class="title_btn">판매상태</button>
+                </div>
             </div>
-        </div>
 
-        <!-- TABLE -->
-        <div class="table-container">
             <table>
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>상품명</th>
-                        <th>상품유형</th>
-                        <th>금리(%)</th>
-                        <th>가입기간</th>
-                        <th>판매상태</th>
-                        <th>등록일</th>
-                        <th>최근수정일</th>
-                        <th>조회수</th>
-                        <th>담당자</th>
-                        <th>관리</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr onclick="openModal(this)">
-                        <td>15</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>12개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>윤종인</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>14</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>6개월</td>
-                        <td><span class="status-inactive">판매중지</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>전수빈</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>13</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>24개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>윤종인</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>12</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>12개월</td>
-                        <td><span class="status-pending">예정</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>윤종인</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>11</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>12개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>오성장</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>10</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>24개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>정민정</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>9</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>12개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>우석희</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr onclick="openModal(this)">
-                        <td>8</td>
-                        <td>공이용 외화자유적금</td>
-                        <td>외화적금</td>
-                        <td>5%</td>
-                        <td>6개월</td>
-                        <td><span class="status-active">판매중</span></td>
-                        <td>2025.10.15</td>
-                        <td>2025.11.04</td>
-                        <td>1,546</td>
-                        <td>김수진</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="action-btn" title="수정">✏️</button>
-                                <button class="action-btn" title="조회">👁️</button>
-                                <button class="action-btn" title="삭제">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>상품명</th>
+                    <th>상품유형</th>
+                    <th>금리(%)</th>
+                    <th>가입기간</th>
+                    <th>판매상태</th>
+                    <th>등록일</th>
+                    <th>최근수정일</th>
+                    <th>조회수</th>
+                    <th>담당자</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010029</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>외화적금</td>
+                    <td>5%</td>
+                    <td>12개월</td>
+                    <td>판매중</td>
+                    <td>2025.10.15</td>
+                    <td>2025.11.04</td>
+                    <td>1,546</td>
+                    <td>윤종인</td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                        <div class="toggle_div">
+                            <input type="checkbox" id="toggle" hidden checked>
+                            <label for="toggle" class="toggleSwitch">
+                                <span class="toggleButton"></span>
+                            </label>
+                        </div>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/cross-mark.png}" alt="삭제 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010030</td>
+                    <td>행복한 정기적금</td>
+                    <td>정기적금</td>
+                    <td>4.5%</td>
+                    <td>6개월</td>
+                    <td>판매중</td>
+                    <td>2025.10.10</td>
+                    <td>2025.11.02</td>
+                    <td>892</td>
+                    <td>천수빈</td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                        <div class="toggle_div">
+                            <input type="checkbox" id="toggle2" hidden checked>
+                            <label for="toggle2" class="toggleSwitch">
+                                <span class="toggleButton"></span>
+                            </label>
+                        </div>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/cross-mark.png}" alt="삭제 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010031</td>
+                    <td>미래설계 정기예금</td>
+                    <td>정기예금</td>
+                    <td>4.2%</td>
+                    <td>24개월</td>
+                    <td>판매중지</td>
+                    <td>2025.09.05</td>
+                    <td>2025.10.25</td>
+                    <td>654</td>
+                    <td>김수진</td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                        <div class="toggle_div">
+                            <input type="checkbox" id="toggle3" hidden>
+                            <label for="toggle3" class="toggleSwitch">
+                                <span class="toggleButton"></span>
+                            </label>
+                        </div>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/cross-mark.png}" alt="삭제 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">BNK010032</td>
+                    <td>행운의 청년 정기적금</td>
+                    <td>정기적금</td>
+                    <td>5.5%</td>
+                    <td>12개월</td>
+                    <td>판매중</td>
+                    <td>2025.08.20</td>
+                    <td>2025.11.04</td>
+                    <td>2,105</td>
+                    <td>오서정</td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                        <div class="toggle_div">
+                            <input type="checkbox" id="toggle4" hidden checked>
+                            <label for="toggle4" class="toggleSwitch">
+                                <span class="toggleButton"></span>
+                            </label>
+                        </div>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/cross-mark.png}" alt="삭제 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
             </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#" class="page2">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
         </div>
 
-        <!-- PAGINATION -->
-        <div class="page_div">
-            <ul class="pagenation">
-                <li><a href="#" class="prev"></a></li>
-                <li><a href="#" class="active">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">...</a></li>
-                <li><a href="#">10</a></li>
-                <li><a href="#" class="next"></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>상품 정보</h3>
-            <span class="close" onclick="closeModal()">&times;</span>
-        </div>
-
-        <div class="modal-body">
-            <div class="form-section">
-                <div class="section-title">기본 정보</div>
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label class="form-label">상품ID</label>
-                        <div class="form-value highlight-value" id="modalProductId">BNK010029</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">상품명</label>
-                        <div class="form-value" id="modalProductName">공이용 외화자유적금</div>
-                    </div>
-                    <div class="form-row full-width">
-                        <label class="form-label">상품 설명</label>
-                        <div class="form-value" id="modalProductDesc">부산은행의 안정적이고 수익성 높은 외화적금 상품</div>
-                    </div>
-                </div>
+        <!-- 2. 상품 상세 관리 -->
+        <div id="productDetail" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 상세 관리</span>
             </div>
 
-            <div class="form-section">
-                <div class="section-title">상품 상세</div>
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label class="form-label">상품유형</label>
-                        <div class="form-value" id="modalProductType">외화적금</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">금리(%)</label>
-                        <div class="form-value highlight-value" id="modalProductRate">5%</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">가입기간</label>
-                        <div class="form-value" id="modalProductPeriod">12개월</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">최소 가입액</label>
-                        <div class="form-value highlight-value" id="modalProductMin">$1,000</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">판매상태</label>
-                        <div class="form-value">
-                            <span class="status-badge" id="modalProductStatus">판매중</span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">담당자</label>
-                        <div class="form-value" id="modalProductManager">윤종인</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">등록일</label>
-                        <div class="form-value" id="modalProductRegDate">2025.10.15</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">최근수정일</label>
-                        <div class="form-value" id="modalProductModDate">2025.11.04</div>
-                    </div>
-                    <div class="form-row">
-                        <label class="form-label">조회수</label>
-                        <div class="form-value" id="modalProductViews">1,546</div>
-                    </div>
-                </div>
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">상품번호</th>
+                    <th>상품명</th>
+                    <th>기본금리(%)</th>
+                    <th>만기금리(%)</th>
+                    <th>조기해지금리(%)</th>
+                    <th>월 적립액</th>
+                    <th>최소 가입금액</th>
+                    <th>이자 지급방식</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010029</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>5.0%</td>
+                    <td>5.5%</td>
+                    <td>3.0%</td>
+                    <td>1,000,000</td>
+                    <td>100,000</td>
+                    <td>분기 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010030</td>
+                    <td>행복한 정기적금</td>
+                    <td>4.5%</td>
+                    <td>5.0%</td>
+                    <td>2.5%</td>
+                    <td>500,000</td>
+                    <td>50,000</td>
+                    <td>월 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">BNK010031</td>
+                    <td>미래설계 정기예금</td>
+                    <td>4.2%</td>
+                    <td>4.8%</td>
+                    <td>2.0%</td>
+                    <td>2,000,000</td>
+                    <td>500,000</td>
+                    <td>만기 일시 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. 상품 약관 관리 -->
+        <div id="productTerms" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 약관 관리</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>상품명</th>
+                    <th>약관제목</th>
+                    <th>약관버전</th>
+                    <th>적용일</th>
+                    <th>등록일</th>
+                    <th>작성자</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>1</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>꿈이룸 외화자유적금 가입 약관</td>
+                    <td>v 1.0</td>
+                    <td>2025.10.15</td>
+                    <td>2025.10.15</td>
+                    <td>윤종인</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>2</td>
+                    <td>행복한 정기적금</td>
+                    <td>행복한 정기적금 가입 약관</td>
+                    <td>v 2.1</td>
+                    <td>2025.09.20</td>
+                    <td>2025.09.20</td>
+                    <td>천수빈</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">3</td>
+                    <td>미래설계 정기예금</td>
+                    <td>미래설계 정기예금 가입 약관</td>
+                    <td>v 1.5</td>
+                    <td>2025.08.10</td>
+                    <td>2025.08.10</td>
+                    <td>김수진</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. 상품 분류 관리 -->
+        <div id="productCategory" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 분류 관리</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">분류ID</th>
+                    <th>분류명</th>
+                    <th>상품 수</th>
+                    <th>등록일</th>
+                    <th>최근수정일</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT001</td>
+                    <td>적금</td>
+                    <td>12</td>
+                    <td>2025.01.10</td>
+                    <td>2025.10.15</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT002</td>
+                    <td>외화적금</td>
+                    <td>8</td>
+                    <td>2025.01.10</td>
+                    <td>2025.09.20</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT003</td>
+                    <td>예금</td>
+                    <td>5</td>
+                    <td>2025.01.10</td>
+                    <td>2025.08.05</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">CAT004</td>
+                    <td>대출</td>
+                    <td>6</td>
+                    <td>2025.01.10</td>
+                    <td>2025.10.01</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. 상품 가입 현황 조회 -->
+        <div id="productSubscriber" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 가입 현황 조회</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>상품명</th>
+                    <th>가입자명</th>
+                    <th>가입일</th>
+                    <th>계약금액</th>
+                    <th>예상 만기일</th>
+                    <th>계약 금리</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>1</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>김철수</td>
+                    <td>2025.10.15</td>
+                    <td>50,000,000</td>
+                    <td>2026.10.15</td>
+                    <td>5.0%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>2</td>
+                    <td>행복한 정기적금</td>
+                    <td>이영희</td>
+                    <td>2025.10.20</td>
+                    <td>30,000,000</td>
+                    <td>2026.04.20</td>
+                    <td>4.5%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>3</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>박민준</td>
+                    <td>2025.09.10</td>
+                    <td>100,000,000</td>
+                    <td>2026.03.10</td>
+                    <td>5.0%</td>
+                    <td><span style="color: #ffc107;">해지</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">4</td>
+                    <td>미래설계 정기예금</td>
+                    <td>최수진</td>
+                    <td>2025.08.05</td>
+                    <td>200,000,000</td>
+                    <td>2027.08.05</td>
+                    <td>4.2%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function openModal(row) {
-        const cells = row.querySelectorAll('td');
-        document.getElementById('modalProductId').textContent = cells[0].textContent;
-        document.getElementById('modalProductName').textContent = cells[1].textContent;
-        document.getElementById('modalProductType').textContent = cells[2].textContent;
-        document.getElementById('modalProductRate').textContent = cells[3].textContent;
-        document.getElementById('modalProductPeriod').textContent = cells[4].textContent;
-        document.getElementById('modalProductStatus').textContent = cells[5].textContent;
-        document.getElementById('modalProductRegDate').textContent = cells[6].textContent;
-        document.getElementById('modalProductModDate').textContent = cells[7].textContent;
-        document.getElementById('modalProductViews').textContent = cells[8].textContent;
-        document.getElementById('modalProductManager').textContent = cells[9].textContent;
-        
-        document.getElementById('productModal').classList.add('show');
-    }
+    // 페이지 로딩 시 쿼리 파라미터로 탭 처리
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const tabName = params.get('tab');
 
-    function closeModal() {
-        document.getElementById('productModal').classList.remove('show');
-    }
+        if (tabName) {
+            switchTab(tabName);
+        }
+    });
 
-    window.onclick = function(event) {
-        const modal = document.getElementById('productModal');
-        if (event.target === modal) {
-            closeModal();
+    // 탭 전환 함수
+    function switchTab(tabName) {
+        // 모든 탭 콘텐츠 숨기기
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // 선택된 탭 활성화
+        const selectedTab = document.getElementById(tabName);
+        if (selectedTab) {
+            selectedTab.classList.add('active');
         }
     }
-
-    // TAB 버튼 활성화
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-    // 범주 토글
-    document.querySelectorAll('.category-header').forEach(header => {
-        header.addEventListener('click', function() {
-            const ul = this.nextElementSibling;
-            if (ul && ul.classList.contains('category-ul')) {
-                ul.style.display = ul.style.display === 'none' ? 'block' : 'none';
-            }
-        });
-    });
 </script>
-
 </body>
 </html>

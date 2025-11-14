@@ -6,8 +6,12 @@
     <title>관리자 로그인</title>
     <link rel="stylesheet" th:href="@{/css/admin/adminLogin.css}">
     <link rel="stylesheet" th:href="@{/css/common/style_font.css}"> <!-- 공용 폰트 -->
+
+    <script th:src="@{/js/member/msgBox.js}" defer></script><!-- 로그인 실패 시 박스 -->
 </head>
 <body>
+
+<div th:if="${msg}" th:data-msg="${msg}" id="msgBox"></div>
     <div class="container" style="display: flex; flex-direction: column;">
         <div class="login_top">
             <img th:src="@{/images/admin/Family-Font.png}" alt="로그인 이미지" class="login_img">
@@ -26,14 +30,22 @@
                         <img th:src="@{/images/admin/user.png}" alt="아이디 아이콘" style="width: 18px;height: 18px;">
                     </div>
 
+<<<<<<< HEAD
                     <input type="text" name="loginId" placeholder="ID" class="login">
+=======
+                    <input type="text" placeholder="ID" class="login" name="loginId">
+>>>>>>> 4d0f39a08dceed5d47c15971ad893a8b6812cfdd
                 </div>
 
                 <div class="pw_div">
                     <div class="img_div">
                         <img th:src="@{/images/admin/key.png}" alt="비밀번호 아이콘 " style="width: 18px;height: 18px;">
                     </div>
+<<<<<<< HEAD
                     <input type="password" name="password" placeholder="Password" class="login">
+=======
+                    <input type="password" placeholder="Password" class="login" name="password">
+>>>>>>> 4d0f39a08dceed5d47c15971ad893a8b6812cfdd
                 </div>
                 <button type="submit" class="login_btn">Login</button>
             </form>

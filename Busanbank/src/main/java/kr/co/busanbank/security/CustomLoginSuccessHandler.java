@@ -37,7 +37,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         session.setAttribute("userId", userId);
 
-        // 추가: Thymeleaf와 JS에서도 쓸 수 있게 전체 member 객체 세션 등록
+        // 추가: Thymeleaf와 JS에서도 쓸 수 있게 전체 user 객체 세션 등록
         session.setAttribute("user", user);
 
 

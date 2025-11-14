@@ -7,7 +7,22 @@
 
 .util_row { 
     display: flex; align-items: center; gap: 30px;
-    font-size: 14px; font-weight: 600; color: var(--grey-700);
+}
+
+.util_row a {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--grey-700);
+}
+
+.util_row i {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--grey-700);
+}
+
+.util_row a:active {
+    color: var(--red-900);
 }
 
 .util_name {
@@ -35,8 +50,197 @@
 
 .util_spacer { flex:1 }
 
+/* Global dropdown 영역 전체 */
+.global-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+/* Global 버튼 */
+.global-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    background: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--grey-700);
+    cursor: pointer;
+}
+
+.global-btn.active {
+    color: var(--red-900);
+}
+
+.global-btn.active i {
+    color: var(--red-900);
+}
+
+.global-btn i {
+    font-size: 15px;
+}
+
+/* 드롭다운 */
+.global-dropdown {
+    position: absolute;
+    width: 120px;
+    margin-top: 10px;
+    padding: 20px;
+    background: #ffffff;
+    border-top: 2px solid var(--red-900);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    list-style: none;
+
+    display: none;
+    z-index: 500;
+}
+
+.global-dropdown.show {
+    display: block;
+}
+
+/* 각 언어 항목 */
+.global-dropdown li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--grey-900);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.global-dropdown li:last-child {
+    margin-bottom: 0;
+}
+
+.global-dropdown li:hover {
+    color: var(--red-900);
+}
+
+.global-dropdown img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid var(--grey-300);
+}
+
+/* 전체 검색 오버레이 */
+.search-open-btn {
+    color: var(--grey-900);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.search-open-btn.active {
+    color: var(--red-900);
+}
+
+.search-overlay {
+    position: fixed;
+    top: 100px;            /* 유틸 만큼 내림 */
+    left: 0;
+    width: 100%;
+    height: 100%;          /* 전체 화면 덮어야 반투명 배경 보임 */
+    display: none;         /* 처음엔 숨김 */
+    flex-direction: column;
+    align-items: center;
+    z-index: 9999;
+}
+
+.search-overlay.active {
+    display: flex;
+}
+
+.search-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+}
+
+.search-inner-bg {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    width: 100%;
+    background: #ffffff;
+}
+
+.search-inner {
+    position: relative;
+    z-index: 9999;
+    padding-bottom: 50px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.search-inner h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--red-900);
+    margin-bottom: 25px;
+}
+
+/* 검색창 */
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-box input {
+    width: 455px;
+    height: 45px;
+    border: 1px solid var(--red-900);
+    border-right: none;
+    padding: 20px 15px;
+
+    font-size: 16px;
+    font-weight: 500;
+    outline: none;
+}
+
+.search-submit {
+    width: 45px;
+    height: 45px;
+    background: var(--red-900);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+/* 닫기 버튼 */
+.search-close {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 45px;
+    height: 45px;
+    right: 0;
+    top: 0;
+
+    background: var(--red-900);
+    border: var(--red-900);
+    font-size: 28px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
 /* gnb */
 .gnb {
+    position: relative; z-index: 10;
     display: flex; align-items: center; 
     height: 50px; background: var(--red-200);
     border-bottom: 2px solid var(--red-900);
@@ -60,10 +264,11 @@
 .submenu {
     display: none;
     position: absolute;
-    top: 34px; /* gnb 아래쪽 */
+    top: 31px; /* gnb 아래쪽 */
     padding: 20px 15px;
     min-width: 150px;
     background: #ffffff;
+    border-top: 5px solid var(--red-900);
     box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }
 
@@ -321,7 +526,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 20px;
     box-sizing: border-box;
     height: 160px;
 }
@@ -345,7 +549,7 @@
 }
 
 .deposit-item p {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--grey-700);
     line-height: 1.4;
@@ -507,7 +711,7 @@
 
 .ai-link-b {
     align-self: flex-start;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--grey-900);
     text-decoration: none;
@@ -520,7 +724,7 @@
 
 .ai-link-g {
     align-self: flex-start;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--grey-900);
     text-decoration: none;
@@ -556,3 +760,183 @@
     height: auto;
     transform: translateY(40px);
 }
+
+/* 하단 인포 */
+.footer-info {
+    width: 100%;
+    height: 105px;
+    margin-top: 60px;
+    background: #ffffff;
+}
+
+.footer-info-row {
+    display: grid;
+    width: 1200px;
+    grid-template-columns: 305px 125px 345px 125px 305px;
+    align-items: center;
+}
+
+.divider {
+    width: 1px;
+    height: 105px;
+    background: var(--grey-500);
+    margin-left: 62.5px;
+}
+
+.footer-link {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+}
+
+.footer-link div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-link a {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--grey-900);
+    transition: color 0.2s;
+}
+
+.footer-link a:hover {
+    color: var(--red-900);
+}
+
+
+.footer-center {
+    text-align: left;
+}
+
+.footer-center .label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--grey-900);
+    margin-bottom: 5px;
+}
+
+.footer-center .label span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--grey-900);
+}
+
+.footer-center .tel {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--grey-900);
+    margin-bottom: 10px;
+}
+
+.footer-center .sub {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--grey-900);
+}
+
+/* 오른쪽 버튼 영역 */
+.footer-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.footer-button .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 148px;
+    height: 60px;
+    border: 1px solid var(--grey-500);
+    border-radius: 5px;
+    background: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--grey-900);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.footer-button .btn:hover {
+    color: var(--red-900);
+    border: 1px solid var(--red-900);
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    margin-top: 60px;
+    padding: 40px 0 60px 0;
+    background:var(--grey-100);
+}
+
+.f-link {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 15px;
+    gap: 30px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--grey-700);
+}
+
+.link-active {
+    color: var(--red-700);
+}
+
+.f-number {
+    display: flex;
+    justify-content: start;
+    align-items: last baseline;
+    margin-bottom: 15px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--grey-700);
+    gap: 10px;
+}
+
+.f-number strong {
+    font-size: 18px;
+}
+
+.f-copy {
+    font-size: 12px;
+    font-weight: 300;
+}
+
+/* Top 버튼 */
+.top-btn {
+    position: fixed;
+    bottom: 90px;
+
+    left: calc(50% + 600px + 20px);
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background: var(--grey-500);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+.top-btn:hover {
+    background: var(--red-900);
+}
+
+.top-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ----- [공통] Footer.CSS 끝 ----- */
