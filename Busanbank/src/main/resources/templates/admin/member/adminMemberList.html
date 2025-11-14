@@ -132,16 +132,17 @@
                     <th style="border-radius: 0 5px 0 0;">가입일</th>
                 </tr>
                 <tr class="content_tr detailBtn" th:each="adminMember, stat:${pageResponseDTO.dtoList}">
+                    <td th:text="${stat.index + 1}"></td>
                     <td>[[${adminMember.userNo}]]</td>
-                    <td>10001010</td>
-                    <td>김**</td>
-                    <td>min***</td>
-                    <td>010-****-6789</td>
-                    <td>1</td>
-                    <td>₩5,820,000</td>
-                    <td>2025.11.07</td>
-                    <td style="color:#00B050;">정상</td>
-                    <td>2022-03-14</td>
+                    <td>[[${adminMember.userName}]]</td>
+                    <td>[[${adminMember.userId}]]</td>
+                    <td>[[${adminMember.hp}]]</td>
+                    <td>[[${adminMember.accountNo}]]</td>
+                    <td>₩[[${adminMember.balance}]]</td>
+                    <td>[[${adminMember.regDate}]]</td>
+                    <td style="color:#00B050;" th:text="${adminMember.status == 'A' ? '정상'
+                : adminMember.status == 'W' ? '대기' : '정지'}"></td> <!-- w는 임시 -->
+                    <td>[[${adminMember.updatedAt}]]</td>
                 </tr>
             </table>
 
