@@ -1,0 +1,230 @@
+package kr.co.busanbank.controller.admin;
+
+import kr.co.busanbank.dto.AdminDTO;
+import kr.co.busanbank.service.AdminService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 작성자: 진원
+ * 작성일: 2025-11-16
+ * 설명: 환경설정 및 관리자 계정 관리 컨트롤러
+ */
+@Slf4j
+@RequiredArgsConstructor
+@RequestMapping("/admin/setting")
+@Controller
+public class AdminSettingController {
+
+    private final AdminService adminService;
+
+    /**
+     * 환경설정 페이지
+     */
+    @GetMapping("")
+    public String setting(@RequestParam(value = "tab", required = false) String tab, Model model) {
+        log.info("Admin Setting Page - tab: {}", tab);
+
+        if (tab != null) {
+            model.addAttribute("tab", tab);
+        }
+
+        return "admin/adminsetting";
+    }
+
+    /**
+     * 관리자 목록 조회 API
+     */
+    @GetMapping("/admins")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getAdminList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchKeyword
+    ) {
+        log.info("관리자 목록 조회 - page: {}, size: {}, keyword: {}", page, size, searchKeyword);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            List<AdminDTO> adminList = adminService.getAdminList(page, size, searchKeyword);
+            int totalCount = adminService.getTotalCount(searchKeyword);
+            int totalPages = (int) Math.ceil((double) totalCount / size);
+
+            response.put("success", true);
+            response.put("data", adminList);
+            response.put("totalCount", totalCount);
+            response.put("totalPages", totalPages);
+            response.put("currentPage", page);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("관리자 목록 조회 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "관리자 목록 조회에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    /**
+     * 관리자 상세 조회 API
+     */
+    @GetMapping("/admins/{adminId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getAdmin(@PathVariable int adminId) {
+        log.info("관리자 상세 조회 - adminId: {}", adminId);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            AdminDTO admin = adminService.getAdminById(adminId);
+
+            if (admin != null) {
+                response.put("success", true);
+                response.put("data", admin);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
+                response.put("message", "관리자를 찾을 수 없습니다.");
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("관리자 조회 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "관리자 조회에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    /**
+     * 관리자 추가 API
+     */
+    @PostMapping("/admins")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> createAdmin(@RequestBody AdminDTO adminDTO) {
+        log.info("관리자 추가 - loginId: {}", adminDTO.getLoginId());
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            // LoginId 중복 체크
+            if (adminService.isLoginIdDuplicate(adminDTO.getLoginId())) {
+                response.put("success", false);
+                response.put("message", "이미 존재하는 로그인 ID입니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            boolean result = adminService.createAdmin(adminDTO);
+
+            if (result) {
+                response.put("success", true);
+                response.put("message", "관리자가 성공적으로 추가되었습니다.");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
+                response.put("message", "관리자 추가에 실패했습니다.");
+                return ResponseEntity.internalServerError().body(response);
+            }
+        } catch (Exception e) {
+            log.error("관리자 추가 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "관리자 추가에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    /**
+     * 관리자 수정 API
+     */
+    @PutMapping("/admins/{adminId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updateAdmin(
+            @PathVariable int adminId,
+            @RequestBody AdminDTO adminDTO
+    ) {
+        log.info("관리자 수정 - adminId: {}", adminId);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            adminDTO.setAdminId(adminId);
+            boolean result = adminService.updateAdmin(adminDTO);
+
+            if (result) {
+                response.put("success", true);
+                response.put("message", "관리자가 성공적으로 수정되었습니다.");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
+                response.put("message", "관리자 수정에 실패했습니다.");
+                return ResponseEntity.internalServerError().body(response);
+            }
+        } catch (Exception e) {
+            log.error("관리자 수정 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "관리자 수정에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    /**
+     * 관리자 삭제 API
+     */
+    @DeleteMapping("/admins/{adminId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteAdmin(@PathVariable int adminId) {
+        log.info("관리자 삭제 - adminId: {}", adminId);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean result = adminService.deleteAdmin(adminId);
+
+            if (result) {
+                response.put("success", true);
+                response.put("message", "관리자가 성공적으로 삭제되었습니다.");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
+                response.put("message", "관리자 삭제에 실패했습니다.");
+                return ResponseEntity.internalServerError().body(response);
+            }
+        } catch (Exception e) {
+            log.error("관리자 삭제 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "관리자 삭제에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    /**
+     * LoginId 중복 체크 API
+     */
+    @GetMapping("/admins/check-loginid")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkLoginId(@RequestParam String loginId) {
+        log.info("LoginId 중복 체크 - loginId: {}", loginId);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean isDuplicate = adminService.isLoginIdDuplicate(loginId);
+            response.put("success", true);
+            response.put("isDuplicate", isDuplicate);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("LoginId 중복 체크 실패: {}", e.getMessage());
+            response.put("success", false);
+            response.put("message", "중복 체크에 실패했습니다.");
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
+}

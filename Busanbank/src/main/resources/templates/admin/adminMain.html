@@ -36,7 +36,7 @@
             <div class="search-box">
                 <input type="text" id="search_input" placeholder="Search...">
                 <button class="search_btn">
-                    <img  th:src="@{/images/admin/magnifier.png}" alt="검색 버튼" class="search_img">
+                    <img th:src="@{/images/admin/magnifier.png}" alt="검색 버튼" class="search_img">
                 </button>
             </div>
 
@@ -47,12 +47,12 @@
                 <span class="category_sp">환경설정</span>
             </div>
             <ul class="category1-ul">
-                <li class="category-li"><a href="#" class="category-a">권리자 계정관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">보안 설정</a></li>
-                <li class="category-li"><a href="#" class="category-a">인증서/OTP 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">사이트 기본 설정</a></li>
-                <li class="category-li"><a href="#" class="category-a">정책·약관 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">API 키 / 외부 연동 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting}" class="category-a">권리자 계정관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting?tab=security}" class="category-a">보안 설정</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting?tab=certificate}" class="category-a">인증서/OTP 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting?tab=site}" class="category-a">사이트 기본 설정</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting?tab=policy}" class="category-a">정책·약관 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/setting?tab=api}" class="category-a">API 키 / 외부 연동 관리</a></li>
             </ul>
 
             <div class="category2">
@@ -62,15 +62,15 @@
                 <span class="category_sp">상품 목록 관리</span>
             </div>
             <ul class="category2-ul">
-                <li class="category-li"><a href="#" class="category-a">상품 목록 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 상세 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 약관 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 분류 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">금리·환율 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 가입 현황 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">금융 감정 분석 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">비트코인/금/오일 시세 관리</a></li>
-                <li class="category-li"><a href="#" class="category-a">상품 번역 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product}" class="category-a">상품 목록 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=productDetail}" class="category-a">상품 상세 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=productTerms}" class="category-a">상품 약관 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=productCategory}" class="category-a">상품 분류 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=rateExchange}" class="category-a">금리·환율 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=productSubscriber}" class="category-a">상품 가입 현황 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=sentiment}" class="category-a">금융 감정 분석 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=market}" class="category-a">비트코인/금/오일 시세 관리</a></li>
+                <li class="category-li"><a th:href="@{/admin/product?tab=translation}" class="category-a">상품 번역 관리</a></li>
             </ul>
 
             <div class="category3">
