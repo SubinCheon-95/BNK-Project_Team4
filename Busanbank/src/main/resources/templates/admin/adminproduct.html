@@ -1,0 +1,783 @@
+<!--adminproduct.html-->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 목록 관리</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/admin_category.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/admin_productList.css}">
+    <link rel="stylesheet" th:href="@{/css/common/style_font.css}">
+
+    <script th:src="@{/js/admin/admin_category.js}" defer></script>
+    <script th:src="@{/js/admin/admin_productList.js}" defer></script>
+    <script th:src="@{/js/admin/admin_adminproduct.js}" defer></script>
+
+    <style>
+        /* Tab switching styles */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 각 탭 콘텐츠의 위치 조정 */
+        table {
+            top: 135px !important;
+        }
+
+        .productList_title {
+            top: 86px !important;
+        }
+
+        .page_div {
+            top: 990px !important;
+        }
+
+        /* Modal styles */
+        .product-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 3% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #E1545A;
+            padding-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #E1545A;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-save {
+            background-color: #E1545A;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #c43f44;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        .add-product-btn {
+            background-color: #E1545A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .add-product-btn:hover {
+            background-color: #c43f44;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="display:flex;">
+    <div class="main-left">
+        <img th:src="@{/images/admin/Busanbank_CI-W.png}" alt="BNK 부산은행" class="main-logo">
+        <!-- 로그인 상태 -->
+        <div sec:authorize="isAuthenticated()" class="first-line">
+            <span class="name_sp" sec:authentication="name"></span>
+            <div class="name-right">
+                <span class="welcome_sp">환영합니다!</span>
+                <a th:href="@{/admin/logout}" class="logout_btn">
+                    <img th:src="@{/images/admin/log-out.png}" alt="로그아웃 버튼" class="logout_img">
+                </a>
+            </div>
+        </div>
+
+        <!-- 비로그인 상태 -->
+        <div sec:authorize="!isAuthenticated()">
+            <a th:href="@{/admin/login}" class="login_btn">로그인</a>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="search_input" class="search_input" placeholder="Search...">
+            <button class="search_btn">
+                <img th:src="@{/images/admin/magnifier.png}" alt="검색 버튼" class="search_img">
+            </button>
+        </div>
+
+        <div class="category1">
+            <div class="category1_img_div">
+                <img th:src="@{/images/admin/cogwheel.png}" alt="환경설정" style="width: 26px;height: 26px;">
+            </div>
+            <span class="category_sp">환경설정</span>
+        </div>
+        <ul class="category1-ul">
+            <li class="category-li"><a th:href="@{/admin/setting}" class="category-a">권리자 계정관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/setting?tab=security}" class="category-a">보안 설정</a></li>
+            <li class="category-li"><a th:href="@{/admin/setting?tab=certificate}" class="category-a">인증서/OTP 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/setting?tab=site}" class="category-a">사이트 기본 설정</a></li>
+            <li class="category-li"><a th:href="@{/admin/setting?tab=policy}" class="category-a">정책·약관 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/setting?tab=api}" class="category-a">API 키 / 외부 연동 관리</a></li>
+        </ul>
+
+        <div class="category2">
+            <div class="category2_img_div">
+                <img th:src="@{/images/admin/banknotes.png}" alt="은행 상품 관리" style="width: 26px;height: 26px;">
+            </div>
+            <span class="category_sp">상품 목록 관리</span>
+        </div>
+        <ul class="category2-ul">
+            <li class="category-li"><a th:href="@{/admin/product}" class="category-a">상품 목록 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=productDetail}" class="category-a">상품 상세 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=productTerms}" class="category-a">상품 약관 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=productCategory}" class="category-a">상품 분류 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=rateExchange}" class="category-a">금리·환율 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=productSubscriber}" class="category-a">상품 가입 현황 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=sentiment}" class="category-a">금융 감정 분석 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=market}" class="category-a">비트코인/금/오일 시세 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/product?tab=translation}" class="category-a">상품 번역 관리</a></li>
+        </ul>
+
+        <div class="category3">
+            <div class="category3_img_div">
+                <img th:src="@{/images/admin/user.png}" alt="회원 관리" style="width: 26px;height: 26px;">
+            </div>
+            <span class="category_sp">회원 관리</span>
+        </div>
+        <ul class="category3-ul">
+            <li class="category-li"><a th:href="@{/admin/member/list}" class="category-a">회원 목록 관리</a></li>
+        </ul>
+
+        <div class="category4">
+            <div class="category4_img_div">
+                <img th:src="@{/images/admin/list.png}" alt="게시판 관리" style="width: 26px;height: 26px;">
+            </div>
+            <span class="category_sp">게시판 관리</span>
+        </div>
+        <ul class="category4-ul">
+            <li class="category-li"><a th:href="@{/admin/report/list}" class="category-a">보도자료 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/notice/list}" class="category-a">공지사항 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/event/list}" class="category-a">이벤트 관리</a></li>
+        </ul>
+
+        <div class="category5">
+            <div class="category5_img_div">
+                <img th:src="@{/images/admin/receiver.png}" alt="고객센터 관리" style="width: 26px;height: 26px;">
+            </div>
+            <span class="category_sp">고객센터 관리</span>
+        </div>
+        <ul class="category5-ul">
+            <li class="category-li"><a th:href="@{/admin/faq/list}" class="category-a">FAQ 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/docu/list}" class="category-a">은행거래 필요서류 관리</a></li>
+            <li class="category-li"><a th:href="@{/admin/counsel/list}" class="category-a">이메일 상담 관리</a></li>
+        </ul>
+
+        <div class="footer_div">
+            <span>COPYRIGHT <br>
+                © 2014 BUSANBANK. ALL RIGHTS RESERVED.
+            </span>
+        </div>
+    </div>
+
+    <div class="main-right">
+        <!-- 1. 상품 목록 관리 -->
+        <div id="productList" class="tab-content active">
+            <div class="productList_title">
+                <span class="title_sp">상품 목록 관리</span>
+                <div>
+                    <select id="productTypeFilter" style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; margin-right: 10px;">
+                        <option value="">전체</option>
+                        <option value="01">예금</option>
+                        <option value="02">적금</option>
+                    </select>
+                    <button class="title_btn">상품명순</button>
+                    <button class="title_btn">금리순</button>
+                    <button class="title_btn">등록일순</button>
+                    <button class="title_btn">판매상태</button>
+                    <button class="add-product-btn" id="addProductBtn">상품 추가</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr style="background-color: #E1545A;color:white;">
+                        <th style="border-radius: 5px 0 0 0;">No.</th>
+                        <th>상품명</th>
+                        <th>상품유형</th>
+                        <th>금리(%)</th>
+                        <th>가입기간</th>
+                        <th>판매상태</th>
+                        <th>등록일</th>
+                        <th>최근수정일</th>
+                        <th>조회수</th>
+                        <th>담당자</th>
+                        <th style="border-radius: 0 5px 0 0;">관리</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <tr>
+                        <td colspan="11" style="text-align:center; padding: 20px;">로딩 중...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#" class="page2">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. 상품 상세 관리 -->
+        <div id="productDetail" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 상세 관리</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">상품번호</th>
+                    <th>상품명</th>
+                    <th>기본금리(%)</th>
+                    <th>만기금리(%)</th>
+                    <th>조기해지금리(%)</th>
+                    <th>월 적립액</th>
+                    <th>최소 가입금액</th>
+                    <th>이자 지급방식</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010029</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>5.0%</td>
+                    <td>5.5%</td>
+                    <td>3.0%</td>
+                    <td>1,000,000</td>
+                    <td>100,000</td>
+                    <td>분기 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>BNK010030</td>
+                    <td>행복한 정기적금</td>
+                    <td>4.5%</td>
+                    <td>5.0%</td>
+                    <td>2.5%</td>
+                    <td>500,000</td>
+                    <td>50,000</td>
+                    <td>월 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">BNK010031</td>
+                    <td>미래설계 정기예금</td>
+                    <td>4.2%</td>
+                    <td>4.8%</td>
+                    <td>2.0%</td>
+                    <td>2,000,000</td>
+                    <td>500,000</td>
+                    <td>만기 일시 지급</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. 상품 약관 관리 -->
+        <div id="productTerms" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 약관 관리</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>상품명</th>
+                    <th>약관제목</th>
+                    <th>약관버전</th>
+                    <th>적용일</th>
+                    <th>등록일</th>
+                    <th>작성자</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>1</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>꿈이룸 외화자유적금 가입 약관</td>
+                    <td>v 1.0</td>
+                    <td>2025.10.15</td>
+                    <td>2025.10.15</td>
+                    <td>윤종인</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>2</td>
+                    <td>행복한 정기적금</td>
+                    <td>행복한 정기적금 가입 약관</td>
+                    <td>v 2.1</td>
+                    <td>2025.09.20</td>
+                    <td>2025.09.20</td>
+                    <td>천수빈</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">3</td>
+                    <td>미래설계 정기예금</td>
+                    <td>미래설계 정기예금 가입 약관</td>
+                    <td>v 1.5</td>
+                    <td>2025.08.10</td>
+                    <td>2025.08.10</td>
+                    <td>김수진</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. 상품 분류 관리 -->
+        <div id="productCategory" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 분류 관리</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">분류ID</th>
+                    <th>분류명</th>
+                    <th>상품 수</th>
+                    <th>등록일</th>
+                    <th>최근수정일</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT001</td>
+                    <td>적금</td>
+                    <td>12</td>
+                    <td>2025.01.10</td>
+                    <td>2025.10.15</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT002</td>
+                    <td>외화적금</td>
+                    <td>8</td>
+                    <td>2025.01.10</td>
+                    <td>2025.09.20</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>CAT003</td>
+                    <td>예금</td>
+                    <td>5</td>
+                    <td>2025.01.10</td>
+                    <td>2025.08.05</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">CAT004</td>
+                    <td>대출</td>
+                    <td>6</td>
+                    <td>2025.01.10</td>
+                    <td>2025.10.01</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. 상품 가입 현황 조회 -->
+        <div id="productSubscriber" class="tab-content">
+            <div class="productList_title">
+                <span class="title_sp">상품 가입 현황 조회</span>
+            </div>
+
+            <table>
+                <tr style="background-color: #E1545A;color:white;">
+                    <th style="border-radius: 5px 0 0 0;">No.</th>
+                    <th>상품명</th>
+                    <th>가입자명</th>
+                    <th>가입일</th>
+                    <th>계약금액</th>
+                    <th>예상 만기일</th>
+                    <th>계약 금리</th>
+                    <th>상태</th>
+                    <th style="border-radius: 0 5px 0 0;">관리</th>
+                </tr>
+                <tr class="content_tr">
+                    <td>1</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>김철수</td>
+                    <td>2025.10.15</td>
+                    <td>50,000,000</td>
+                    <td>2026.10.15</td>
+                    <td>5.0%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>2</td>
+                    <td>행복한 정기적금</td>
+                    <td>이영희</td>
+                    <td>2025.10.20</td>
+                    <td>30,000,000</td>
+                    <td>2026.04.20</td>
+                    <td>4.5%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr">
+                    <td>3</td>
+                    <td>꿈이룸 외화자유적금</td>
+                    <td>박민준</td>
+                    <td>2025.09.10</td>
+                    <td>100,000,000</td>
+                    <td>2026.03.10</td>
+                    <td>5.0%</td>
+                    <td><span style="color: #ffc107;">해지</span></td>
+                    <td>
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="content_tr_last">
+                    <td style="border-radius: 0 0 0 5px;">4</td>
+                    <td>미래설계 정기예금</td>
+                    <td>최수진</td>
+                    <td>2025.08.05</td>
+                    <td>200,000,000</td>
+                    <td>2027.08.05</td>
+                    <td>4.2%</td>
+                    <td><span style="color: #28a745;">활성</span></td>
+                    <td style="border-radius: 0 0 5px 0;">
+                        <button class="productList_btn">
+                            <img th:src="@{/images/admin/free-icon-pencil-7175371.png}" alt="수정 버튼" style="width: 100%;height: 100%;object-fit: contain;">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="page_div">
+                <ul class="pagenation">
+                    <li><a href="#" class="page2"><span class="prev"></span></a></li>
+                    <li><a href="#" class="page1">1</a></li>
+                    <li><a href="#" class="page2">2</a></li>
+                    <li><a href="#" class="page2">3</a></li>
+                    <li><a href="#">...</a></li>
+                    <li><a href="#" class="page2">10</a></li>
+                    <li><a href="#" class="page2"><span class="next"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상품 추가/수정 모달 -->
+<div id="productModal" class="product-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">상품 추가</h2>
+            <span class="close">&times;</span>
+        </div>
+        <form id="productForm">
+            <input type="hidden" id="productNo">
+
+            <div class="form-group">
+                <label for="productName">상품명 *</label>
+                <input type="text" id="productName" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productType">상품 유형 *</label>
+                    <select id="productType" required>
+                        <option value="01">예금</option>
+                        <option value="02">적금</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="categoryId">카테고리 ID</label>
+                    <input type="number" id="categoryId">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">상품 설명</label>
+                <textarea id="description"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="baseRate">기본금리 (%)</label>
+                    <input type="number" id="baseRate" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="maturityRate">만기우대 (%)</label>
+                    <input type="number" id="maturityRate" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="earlyTerminateRate">중도해지우대 (%)</label>
+                    <input type="number" id="earlyTerminateRate" step="0.01" min="0">
+                </div>
+            </div>
+
+            <div id="savingFields" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="monthlyAmount">월 납입액</label>
+                        <input type="number" id="monthlyAmount" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="savingTerm">적립기간 (개월)</label>
+                        <input type="number" id="savingTerm" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div id="depositFields" style="display: block;">
+                <div class="form-group">
+                    <label for="depositAmount">예치금</label>
+                    <input type="number" id="depositAmount" step="0.01" min="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="interestMethod">이자 계산 방법</label>
+                    <select id="interestMethod">
+                        <option value="">선택</option>
+                        <option value="단리">단리</option>
+                        <option value="복리">복리</option>
+                        <option value="만기일시">만기일시</option>
+                        <option value="월복리">월복리</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="payCycle">이자 지급 주기</label>
+                    <input type="text" id="payCycle">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">상품 종료일</label>
+                <input type="date" id="endDate">
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn btn-cancel" onclick="closeModal()">취소</button>
+                <button type="button" class="modal-btn btn-save" id="saveProductBtn">저장</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 페이지 로딩 시 쿼리 파라미터로 탭 처리
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const tabName = params.get('tab');
+
+        if (tabName) {
+            switchTab(tabName);
+        }
+    });
+
+    // 탭 전환 함수
+    function switchTab(tabName) {
+        // 모든 탭 콘텐츠 숨기기
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // 선택된 탭 활성화
+        const selectedTab = document.getElementById(tabName);
+        if (selectedTab) {
+            selectedTab.classList.add('active');
+        }
+    }
+</script>
+</body>
+</html>

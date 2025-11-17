@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 진원
+    작성일: 2025-11-16
+    설명: 금융상품 관리 Mapper (CRUD)
+-->
+<mapper namespace="kr.co.busanbank.mapper.ProductMapper">
+
+    <!-- 상품 목록 조회 (페이징) -->
+    <select id="selectProductList" resultType="kr.co.busanbank.dto.ProductDTO">
+        SELECT * FROM (
+            SELECT
+                p.*,
+                ROW_NUMBER() OVER (ORDER BY createdAt DESC) as rnum
+            FROM PRODUCT p
+            WHERE status = 'Y'
+            <if test="searchKeyword != null and searchKeyword != ''">
+                AND (
+                    productName LIKE '%' || #{searchKeyword} || '%'
+                    OR description LIKE '%' || #{searchKeyword} || '%'
+                )
+            </if>
+            <if test="productType != null and productType != ''">
+                AND productType = #{productType}
+            </if>
+        )
+        WHERE rnum BETWEEN #{offset} + 1 AND #{offset} + #{limit}
+    </select>
+
+    <!-- 상품 전체 개수 -->
+    <select id="countProducts" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
+        WHERE status = 'Y'
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (
+                productName LIKE '%' || #{searchKeyword} || '%'
+                OR description LIKE '%' || #{searchKeyword} || '%'
+            )
+        </if>
+        <if test="productType != null and productType != ''">
+            AND productType = #{productType}
+        </if>
+    </select>
+
+    <!-- 상품 ID로 조회 -->
+    <select id="selectProductById" parameterType="int" resultType="kr.co.busanbank.dto.ProductDTO">
+        SELECT * FROM PRODUCT WHERE productNo = #{productNo}
+    </select>
+
+    <!-- 상품 추가 -->
+    <insert id="insertProduct" parameterType="kr.co.busanbank.dto.ProductDTO">
+        <selectKey keyProperty="productNo" order="BEFORE" resultType="int">
+            SELECT NVL(MAX(productNo), 0) + 1 FROM PRODUCT
+        </selectKey>
+        INSERT INTO PRODUCT (
+            productNo,
+            productName,
+            productType,
+            categoryId,
+            description,
+            baseRate,
+            maturityRate,
+            earlyTerminateRate,
+            monthlyAmount,
+            savingTerm,
+            depositAmount,
+            interestMethod,
+            payCycle,
+            endDate,
+            adminId,
+            createdAt,
+            updatedAt,
+            status
+        ) VALUES (
+            #{productNo},
+            #{productName},
+            #{productType},
+            #{categoryId},
+            #{description},
+            #{baseRate},
+            #{maturityRate},
+            #{earlyTerminateRate},
+            #{monthlyAmount},
+            #{savingTerm},
+            #{depositAmount},
+            #{interestMethod},
+            #{payCycle},
+            TO_DATE(#{endDate}, 'YYYY-MM-DD'),
+            #{adminId},
+            SYSDATE,
+            SYSDATE,
+            'Y'
+        )
+    </insert>
+
+    <!-- 상품 수정 -->
+    <update id="updateProduct" parameterType="kr.co.busanbank.dto.ProductDTO">
+        UPDATE PRODUCT
+        SET
+            productName = #{productName},
+            productType = #{productType},
+            categoryId = #{categoryId},
+            description = #{description},
+            baseRate = #{baseRate},
+            maturityRate = #{maturityRate},
+            earlyTerminateRate = #{earlyTerminateRate},
+            monthlyAmount = #{monthlyAmount},
+            savingTerm = #{savingTerm},
+            depositAmount = #{depositAmount},
+            interestMethod = #{interestMethod},
+            payCycle = #{payCycle},
+            <if test="endDate != null and endDate != ''">
+                endDate = TO_DATE(#{endDate}, 'YYYY-MM-DD'),
+            </if>
+            updatedAt = SYSDATE
+        WHERE productNo = #{productNo}
+    </update>
+
+    <!-- 상품 삭제 (soft delete) -->
+    <update id="deleteProduct" parameterType="int">
+        UPDATE PRODUCT
+        SET status = 'N',
+            updatedAt = SYSDATE
+        WHERE productNo = #{productNo}
+    </update>
+
+    <!-- 상품명 중복 체크 -->
+    <select id="countByProductName" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
+        WHERE productName = #{productName}
+        AND status = 'Y'
+    </select>
+
+</mapper>
