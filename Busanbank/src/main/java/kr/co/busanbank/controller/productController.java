@@ -23,13 +23,13 @@ public class productController {
         return  "product/productJoinStage/productindex";
     }
 
+
     // 상품리스트 - 전체 메인페이지
     @GetMapping("/list/main")
     public String list(Model model) {
-        model.addAttribute("products", productService.findAll());
+//        model.addAttribute("products", productService.findAll());
         return "product/productMain";
     }
-
 
     // 상품리스트 - 자유예금
     @GetMapping("/list/freedepwith")
@@ -98,7 +98,7 @@ public class productController {
     // 상품 상세
     @GetMapping("/view")
     public String view(@RequestParam("id") int id, Model model) {
-        model.addAttribute("product", productService.findById(id));
+//        model.addAttribute("product", productService.findById(id));
         return "product/prodView";
     }
 
