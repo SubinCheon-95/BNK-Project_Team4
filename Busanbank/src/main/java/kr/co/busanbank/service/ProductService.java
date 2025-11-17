@@ -95,4 +95,13 @@ public class ProductService {
     public List<ProductDTO> searchProducts(String keyword) {
         return productMapper.searchProducts(keyword);
     }
+
+    /**
+     * ★★★ 카테고리별 상품 조회 추가 ★★★
+     */
+    public List<ProductDTO> getProductsByCategory(int categoryId) {
+        log.info("카테고리별 상품 조회 - categoryId: {}", categoryId);
+        return productMapper.selectProductsByCategory(categoryId);
+    }
+
 }
