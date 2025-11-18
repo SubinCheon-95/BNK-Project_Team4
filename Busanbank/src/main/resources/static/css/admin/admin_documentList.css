@@ -211,11 +211,6 @@ td {
 .create_btn:hover {background-color: #2a7ba3;}
 
 /*페이지네이션 부분*/
-.page_div {
-  left: 1040px;
-  position: absolute;
-  top: 950px;
-}
 .pagenation {
   width: 100%;
   padding:0px;
