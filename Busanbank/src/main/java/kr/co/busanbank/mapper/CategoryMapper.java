@@ -31,4 +31,11 @@ public interface CategoryMapper {
 
     // 카테고리 삭제 (soft delete)
     int deleteCategory(@Param("categoryId") int categoryId);
+
+    CategoryDTO findById(int categoryId);
+
+    List<CategoryDTO> findDepth1();
+
+    List<CategoryDTO> findChildren(int parentId);
+
 }

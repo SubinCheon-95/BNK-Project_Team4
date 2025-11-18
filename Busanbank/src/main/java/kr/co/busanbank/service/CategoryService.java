@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -78,5 +80,33 @@ public class CategoryService {
             log.error("카테고리 삭제 실패: {}", e.getMessage());
             return false;
         }
+    }
+  
+    public List<CategoryDTO> getBreadcrumb(int categoryId) {
+
+        List<CategoryDTO> breadcrumb = new ArrayList<>();
+
+        CategoryDTO current = categoryMapper.findById(categoryId);
+        breadcrumb.add(current);
+
+        while (current.getParentId() != null) {
+            current = categoryMapper.findById(current.getParentId());
+            breadcrumb.add(current);
+        }
+
+        Collections.reverse(breadcrumb);
+        return breadcrumb;
+    }
+
+    public List<CategoryDTO> getDepth1Categories() {
+        return categoryMapper.findDepth1();
+    }
+
+    public List<CategoryDTO> getChildren(int parentId) {
+        return categoryMapper.findChildren(parentId);
+    }
+
+    public String getPageTitle(int categoryId) {
+        return categoryMapper.findById(categoryId).getCategoryName();
     }
 }

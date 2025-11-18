@@ -21,4 +21,5 @@ public class CategoryDTO {
     private String updatedAt;       // 수정일
     private String status;          // 상태 (Y/N)
     private Integer parentId;       // 부모 카테고리 ID
+  
 }
