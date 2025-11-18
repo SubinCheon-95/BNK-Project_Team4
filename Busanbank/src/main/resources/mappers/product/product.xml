@@ -281,6 +281,7 @@
         LEFT JOIN PRODUCT p ON up.PRODUCTNO = p.PRODUCTNO
         WHERE up.PRODUCTNO = #{productNo}
         ORDER BY up.CREATEDAT DESC
+    </select>
      
     <!-- 상품 상세 정보 조회 -->
     <select id="getProductDetail" parameterType="int" resultType="kr.co.busanbank.dto.ProductDetailDTO">
