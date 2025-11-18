@@ -10,7 +10,7 @@
 | **기대 효과** | <ul><li>은행권 웹 시스템 개발 프로세스 실무 감각 향상</li><li>UI/UX 설계와 관리자 페이지 구축 경험을 통한 실전 대응 능력 강화</li><li>데이터 중심의 시스템 관리 및 통계 기능 구현 경험 축적</li></ul> |
 | **주요 기능** | <ul><li><b>사용자 화면:</b> 가입하기·로그인·로그아웃 / 예금상품 조회 / 상품상세 / 금융감정분석 / 번역(다국어)</li><li><b>관리자 화면:</b> 회원관리 / 상품관리 / 게시판관리 / 고객센터관리 / 환경설정</li><li><b>시각화 기능:</b> 판매통계 / 조회통계 / 상품유형 비율 원형그래프 / 감정분석 리포트</li></ul> |
 | **서비스 채널** | PC WEB / MOBILE WEB (반응형) |
-| **개발 환경** | <ul><li><b>Frontend:</b> HTML, CSS, JavaScript, Adobe XD</li><li><b>Backend:</b> Java 17, Spring Framework(Spring Boot 3.x), MyBatis</li><li><b>Database:</b> Oracle 21c XE</li><li><b>Server:</b> AWS EC2 / Tomcat 10</li><li><b>협업/CI:</b> GitHub / Figma / Notion</li></ul> |
+| **개발 환경** | <ul><li><b>Frontend:</b> HTML, CSS, JavaScript, Adobe XD</li><li><b>Backend:</b> Java 17, Spring Framework(Spring Boot 3.x), MyBatis</li><li><b>Database:</b> Oracle 21c XE</li><li><b>Server:</b> GCP EC2 / Tomcat 10</li><li><b>협업/CI:</b> GitHub / Figma / Notion</li></ul> |
 | **작업 기간** | <ul><li>1차: 2025.11.06 (목) ~ 2025.12.03 (수) / 160h</li><li>2차: 2025.12.05 (금) ~ 2026.01.06 (화) / 160h</li></ul> |
 | **작품 발표일** | <ul><li>1차: 2025.12.04 (목) 09:00</li><li>2차: 2026.01.06 (화) 14:00</li></ul> |
 
