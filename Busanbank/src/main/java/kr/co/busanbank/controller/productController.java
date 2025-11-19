@@ -105,34 +105,34 @@ public class productController {
         return "product/smartFinance";
     }
 
-    // 회원상품가입
-    // STEP 1: 각종 동의
-    @GetMapping("/productjoin")
-    public String showStep1(Model model) {
-        log.info("STEP 1 호출");
-        return "product/productJoinStage/registerstep01";  // templates/product/productJoinStage/registerstep01.html
-    }
-
-    // STEP 2: 정보입력
-    @GetMapping("/productjoin/step2")
-    public String showStep2(Model model) {
-        log.info("STEP 2 호출");
-        return "product/productJoinStage/registerstep02";  // templates/product/productJoinStage/registerstep02.html
-    }
-
-    // STEP 3: 이율안내및 또 동의
-    @GetMapping("/productjoin/step3")
-    public String showStep3(Model model) {
-        log.info("STEP 3 호출");
-        return "product/productJoinStage/registerstep03";  // templates/product/productJoinStage/registerstep03.html
-    }
-
-    // STEP 4: 최최최최종확인
-    @GetMapping("/productjoin/step4")
-    public String showStep4(Model model) {
-        log.info("STEP 4 호출");
-        return "product/productJoinStage/registerstep04";  // templates/product/productJoinStage/registerstep04.html
-    }
+    // 회원상품가입 ===========> 이 부분은 productjoincontroller로 이동함
+//    // STEP 1: 각종 동의
+//    @GetMapping("/productjoin")
+//    public String showStep1(Model model) {
+//        log.info("STEP 1 호출");
+//        return "product/productJoinStage/registerstep01";  // templates/product/productJoinStage/registerstep01.html
+//    }
+//
+//    // STEP 2: 정보입력
+//    @GetMapping("/productjoin/step2")
+//    public String showStep2(Model model) {
+//        log.info("STEP 2 호출");
+//        return "product/productJoinStage/registerstep02";  // templates/product/productJoinStage/registerstep02.html
+//    }
+//
+//    // STEP 3: 이율안내및 또 동의
+//    @GetMapping("/productjoin/step3")
+//    public String showStep3(Model model) {
+//        log.info("STEP 3 호출");
+//        return "product/productJoinStage/registerstep03";  // templates/product/productJoinStage/registerstep03.html
+//    }
+//
+//    // STEP 4: 최최최최종확인
+//    @GetMapping("/productjoin/step4")
+//    public String showStep4(Model model) {
+//        log.info("STEP 4 호출");
+//        return "product/productJoinStage/registerstep04";  // templates/product/productJoinStage/registerstep04.html
+//    }
 
     // ★★★ 상품 상세, productdetail prodView.html timeleaf 용 위한 컨트롤러 (수정) ★★★
     @GetMapping("/view")
