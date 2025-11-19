@@ -247,5 +247,16 @@ public class MemberController {
         return "member/withdrawFinish";
     }
 
+    @GetMapping("/auto")
+    public String auto() {
+        return "member/autoLogout";
+    }
+
+    @GetMapping("/chatbot")
+    public String chatbot() {
+        return "member/chatbotTest";
+    }
+
+
 }
 

@@ -128,6 +128,9 @@ public class SecurityConfig {
                         .logoutUrl("/member/logout")
                         .invalidateHttpSession(true)
                         .logoutSuccessUrl("/member/login?logout=true")
+                ).sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .expiredUrl("/member/login?expired=true")
                 )
                 .csrf(csrf -> csrf.disable());
 
