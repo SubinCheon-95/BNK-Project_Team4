@@ -1,0 +1,40 @@
+
+.login-active{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.login-active a{
+    cursor: pointer;
+}
+
+.login-active a:hover{
+    text-decoration: underline;
+}
+
+.session-box{
+    border: 2px solid #D85258;
+    width: 85px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.session-box button{
+    color: white;
+    border: none;
+    outline: none;
+    background-color: #666666 ;
+    cursor: pointer;
+    padding: 2px;
+    font-size: 15px;
+}
+
+.session-box p{
+    color: #666666;
+    padding: 2px;
+    font-weight: 600;
+    font-size: 15px;
+}

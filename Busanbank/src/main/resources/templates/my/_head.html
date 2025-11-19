@@ -13,7 +13,11 @@
     <link rel="stylesheet" th:href="@{/css/_header.css}">
     <link rel="stylesheet" th:href="@{/css/_footer.css}">
     <link rel="stylesheet" th:href="@{/css/my/My.css}">
+    <link rel="stylesheet" th:href="@{/css/member/AutoLogout.css}">
+
+
     <script th:src="@{/js/_header.js}" defer></script>
+    <script th:src="@{/js/member/session-timer.js}" defer></script>
 </head>
 
 <body>
@@ -28,7 +32,12 @@
             <div class="util_spacer"></div>
 
             <!-- 로그인 상태 -->
-            <a sec:authorize="isAuthenticated()" th:href="@{/my}" >[[${user.userName}]]님</a>
+            <div class="login-active">
+                <a sec:authorize="isAuthenticated()" th:href="@{/my}" th:inline="text">[[${user.userName}]]님</a>
+                <div th:if="${#authorization.expr('isAuthenticated()')}" class="session-box">
+                    <p id="session-timer"></p><button>연장</button>
+                </div>
+            </div>
             <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
             <!-- 비로그인 상태 -->
             <a sec:authorize="!isAuthenticated()" th:href="@{/member/login}">로그인</a>

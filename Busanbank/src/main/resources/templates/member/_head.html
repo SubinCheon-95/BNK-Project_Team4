@@ -13,8 +13,12 @@
     <link rel="stylesheet" th:href="@{/css/_header.css}">
     <link rel="stylesheet" th:href="@{/css/_footer.css}">
     <link rel="stylesheet" th:href="@{/css/member/Member.css}">
+    <link rel="stylesheet" th:href="@{/css/member/AutoLogout.css}">
+    <link rel="stylesheet" th:href="@{/css/member/Chatbot.css}">
 
     <script th:src="@{/js/_header.js}" defer></script>
+    <script th:src="@{/js/member/openModal.js}" defer></script>
+    <script th:src="@{/js/member/session-timer.js}" defer></script>
 </head>
 <body>
 <!-- Header 부분 -->
@@ -27,8 +31,13 @@
             </a>
             <div class="util_spacer"></div>
 
-            <a sec:authorize="isAuthenticated()" th:href="@{/my}" th:inline="text">[[${user.userName}]]님</a>
             <!-- 로그인 상태 -->
+            <div class="login-active">
+                <a sec:authorize="isAuthenticated()" th:href="@{/my}" th:inline="text">[[${user.userName}]]님</a>
+                <div th:if="${#authorization.expr('isAuthenticated()')}" class="session-box">
+                    <p id="session-timer"></p><button type="button">연장</button>
+                </div>
+            </div>
             <a sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
             <!-- 비로그인 상태 -->
             <a sec:authorize="!isAuthenticated()" th:href="@{/member/login}">로그인</a>
