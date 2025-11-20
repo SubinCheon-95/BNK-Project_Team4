@@ -106,13 +106,19 @@ public class MyController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userId = auth.getName();
+        log.info("cancel page userId = {}", userId);
+
         List<UserProductDTO> productNames = myService.findUserProductNames(userId);
         model.addAttribute("productNames", productNames);
+        log.info("cancel productName List = {}", productNames);
 
         Integer selectedProductNoInt = null;
         if (productNo != null && !productNo.isEmpty()) {
             selectedProductNoInt = Integer.valueOf(productNo);
         }
+
+        log.info("cancel selectedProductNoInt = {}", selectedProductNoInt);
+
         model.addAttribute("selectedProductNo", selectedProductNoInt);
 
         return "my/itemCancel";
@@ -120,6 +126,7 @@ public class MyController {
 
     @PostMapping("/cancel")
     public String cancel( @RequestParam("productNo") String productNo) {
+        log.info("post cancel productNo: {}", productNo);
         return "redirect:/my/cancel/list?productNo=" + productNo;
     }
 
@@ -132,9 +139,10 @@ public class MyController {
         UserProductDTO cancelProduct = myService.findCancelProduct(userId, productNo);
         cancelProduct.setStartDate(cancelProduct.getStartDate().substring(0, 10));
         cancelProduct.setExpectedEndDate(cancelProduct.getExpectedEndDate().substring(0, 10));
+        log.info("cancel list page cancelProduct: {}", cancelProduct);
 
         model.addAttribute("cancelProduct", cancelProduct);
-        return "/my/cancelList";
+        return "my/cancelList";
     }
 
     @PostMapping("/cancel/list")
