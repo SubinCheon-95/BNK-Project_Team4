@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 고객센터 이메일 상담 -->
+<mapper namespace="kr.co.busanbank.mapper.AdminEmailMapper">
+
+    <select id="findById" resultType="kr.co.busanbank.dto.EmailCounselDTO">
+        SELECT * FROM EMAILCOUNSEL
+        WHERE ECOUNSELID = #{ecounselId}
+    </select>
+
+    <select id="findAll" resultType="kr.co.busanbank.dto.EmailCounselDTO">
+        SELECT * FROM EMAILCOUNSEL
+    </select>
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM EMAILCOUNSEL
+    </select>
+
+</mapper>
