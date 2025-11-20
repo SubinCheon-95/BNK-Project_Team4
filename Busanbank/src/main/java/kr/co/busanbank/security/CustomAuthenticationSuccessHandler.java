@@ -42,7 +42,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         // 기본 성공 URL로 리다이렉트
-        setDefaultTargetUrl("/busanbank/admin");
+        setDefaultTargetUrl("/admin");
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }
