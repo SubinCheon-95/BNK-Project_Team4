@@ -24,20 +24,20 @@
                     <tr>
                         <th>제목</th>
                         <td>
-                            BNK부산은행, WKBL 여자프로농구 2025~2026 타이틀스폰서 후원
+                            [[${boardDTO.title}]]
                         </td>
                     </tr>
                     <tr>
                         <th>내용</th>
                         <td class="radius_td2">
-                            <img th:src="@{/images/admin/이벤트1.png}" alt="이밴트 설명">
+                            <img th:src="@{'/uploads/' + ${boardDTO.file}}" alt="이밴트 설명">
                         </td>
                     </tr>
                 </table>
 
                 <div class="bottom-bar">
-                    <button type="button" class="btn btn1">삭제</button>
-                    <button type="button" class="btn btn2" th:onclick="|location.href='@{/admin/event/modify}'|">수정</button>
+                    <button type="button" class="btn btn1" th:onclick="|location.href='@{/admin/event/delete(id=${boardDTO.id})}'|">삭제</button>
+                    <button type="button" class="btn btn2" th:onclick="|location.href='@{/admin/event/modify(id=${boardDTO.id})}'|">수정</button>
                     <button type="button" class="btn btn3" th:onclick="|location.href='@{/admin/event/list}'|">목록</button>
                 </div>
             </div>
