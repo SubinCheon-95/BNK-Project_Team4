@@ -59,6 +59,10 @@ dependencies {
     implementation 'com.solapi:sdk:1.0.3'
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 tasks.named('test') {
@@ -72,4 +76,5 @@ ext {
     SOLAPI_KEY = System.getenv('SOLAPI_KEY') ?: 'default_value'
     SOLAPI_SECRET = System.getenv('SOLAPI_SECRET') ?: 'default_value'
     SOLAPI_FROM = System.getenv('SOLAPI_FROM') ?: 'default_value'
+    GEMINI_KEY = System.getenv('GEMINI_KEY') ?: 'default_value'
 }
