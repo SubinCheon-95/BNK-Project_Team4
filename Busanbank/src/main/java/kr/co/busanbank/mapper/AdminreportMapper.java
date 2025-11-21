@@ -17,7 +17,7 @@ public interface AdminreportMapper {
     public List<BoardDTO> searchAll(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
     public int searchCountTotal(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO);
 
-    void insertReport(BoardDTO boardDTO);
+    public void insertReport(BoardDTO boardDTO);
     public void modifyReport(BoardDTO boardDTO);
 
     public void singleDelete(@Param("id") int id);
